@@ -26,6 +26,9 @@ mixin _$Client {
   String? get email => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   String? get address => throw _privateConstructorUsedError;
+  String? get addressName => throw _privateConstructorUsedError;
+  double? get latitude => throw _privateConstructorUsedError;
+  double? get longitude => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this Client to a JSON map.
@@ -48,6 +51,9 @@ abstract class $ClientCopyWith<$Res> {
     String? email,
     String? phone,
     String? address,
+    String? addressName,
+    double? latitude,
+    double? longitude,
     DateTime? createdAt,
   });
 }
@@ -72,6 +78,9 @@ class _$ClientCopyWithImpl<$Res, $Val extends Client>
     Object? email = freezed,
     Object? phone = freezed,
     Object? address = freezed,
+    Object? addressName = freezed,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(
@@ -96,6 +105,18 @@ class _$ClientCopyWithImpl<$Res, $Val extends Client>
                 ? _value.address
                 : address // ignore: cast_nullable_to_non_nullable
                       as String?,
+            addressName: freezed == addressName
+                ? _value.addressName
+                : addressName // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            latitude: freezed == latitude
+                ? _value.latitude
+                : latitude // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            longitude: freezed == longitude
+                ? _value.longitude
+                : longitude // ignore: cast_nullable_to_non_nullable
+                      as double?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -120,6 +141,9 @@ abstract class _$$ClientImplCopyWith<$Res> implements $ClientCopyWith<$Res> {
     String? email,
     String? phone,
     String? address,
+    String? addressName,
+    double? latitude,
+    double? longitude,
     DateTime? createdAt,
   });
 }
@@ -143,6 +167,9 @@ class __$$ClientImplCopyWithImpl<$Res>
     Object? email = freezed,
     Object? phone = freezed,
     Object? address = freezed,
+    Object? addressName = freezed,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(
@@ -167,6 +194,18 @@ class __$$ClientImplCopyWithImpl<$Res>
             ? _value.address
             : address // ignore: cast_nullable_to_non_nullable
                   as String?,
+        addressName: freezed == addressName
+            ? _value.addressName
+            : addressName // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        latitude: freezed == latitude
+            ? _value.latitude
+            : latitude // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        longitude: freezed == longitude
+            ? _value.longitude
+            : longitude // ignore: cast_nullable_to_non_nullable
+                  as double?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -185,6 +224,9 @@ class _$ClientImpl implements _Client {
     this.email,
     this.phone,
     this.address,
+    this.addressName,
+    this.latitude,
+    this.longitude,
     this.createdAt,
   });
 
@@ -202,11 +244,17 @@ class _$ClientImpl implements _Client {
   @override
   final String? address;
   @override
+  final String? addressName;
+  @override
+  final double? latitude;
+  @override
+  final double? longitude;
+  @override
   final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'Client(id: $id, name: $name, email: $email, phone: $phone, address: $address, createdAt: $createdAt)';
+    return 'Client(id: $id, name: $name, email: $email, phone: $phone, address: $address, addressName: $addressName, latitude: $latitude, longitude: $longitude, createdAt: $createdAt)';
   }
 
   @override
@@ -219,14 +267,30 @@ class _$ClientImpl implements _Client {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.address, address) || other.address == address) &&
+            (identical(other.addressName, addressName) ||
+                other.addressName == addressName) &&
+            (identical(other.latitude, latitude) ||
+                other.latitude == latitude) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, email, phone, address, createdAt);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    name,
+    email,
+    phone,
+    address,
+    addressName,
+    latitude,
+    longitude,
+    createdAt,
+  );
 
   /// Create a copy of Client
   /// with the given fields replaced by the non-null parameter values.
@@ -249,6 +313,9 @@ abstract class _Client implements Client {
     final String? email,
     final String? phone,
     final String? address,
+    final String? addressName,
+    final double? latitude,
+    final double? longitude,
     final DateTime? createdAt,
   }) = _$ClientImpl;
 
@@ -264,6 +331,12 @@ abstract class _Client implements Client {
   String? get phone;
   @override
   String? get address;
+  @override
+  String? get addressName;
+  @override
+  double? get latitude;
+  @override
+  double? get longitude;
   @override
   DateTime? get createdAt;
 

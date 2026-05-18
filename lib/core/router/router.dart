@@ -16,7 +16,23 @@ import '../../features/quotes/presentation/pages/quote_list_screen.dart';
 import '../../features/settings/presentation/pages/settings_screen.dart';
 import '../../features/payments/presentation/pages/payment_list_screen.dart';
 import '../../features/articles/presentation/pages/article_list_screen.dart';
+import '../../features/articles/presentation/pages/article_details_screen.dart';
 import '../../features/articles/presentation/pages/add_edit_article_screen.dart';
+import '../../features/pos/presentation/pages/pos_home_screen.dart';
+import '../../features/pos/presentation/pages/delivery_route_screen.dart';
+import '../../features/purchases/presentation/pages/create_purchase_screen.dart';
+import '../../features/purchases/presentation/pages/purchase_detail_screen.dart';
+import '../../features/purchases/presentation/pages/purchase_list_screen.dart';
+import '../../features/sales/presentation/pages/daily_pos_report_screen.dart';
+import '../../features/sales/presentation/pages/quick_sale_screen.dart';
+import '../../features/sales/presentation/pages/sale_detail_screen.dart';
+import '../../features/sales/presentation/pages/sale_list_screen.dart';
+import '../../features/sales/presentation/pages/sale_return_screen.dart';
+import '../../features/stock/presentation/pages/stock_overview_screen.dart';
+import '../../features/stock/presentation/pages/stock_transfer_detail_screen.dart';
+import '../../features/stock/presentation/pages/stock_transfer_form_screen.dart';
+import '../../features/stock/presentation/pages/stock_transfer_list_screen.dart';
+import '../../features/suppliers/presentation/pages/supplier_list_screen.dart';
 import '../../features/projects/presentation/pages/project_details_screen.dart';
 import '../../features/projects/presentation/pages/expense_list_screen.dart';
 import '../../features/projects/presentation/pages/project_list_screen.dart';
@@ -83,6 +99,51 @@ class AppRouter {
             builder: (context, state) => const ArticleListScreen(),
           ),
           GoRoute(
+            path: '/pos',
+            name: 'pos_home',
+            builder: (context, state) => const PosHomeScreen(),
+          ),
+          GoRoute(
+            path: '/purchases',
+            name: 'purchases',
+            builder: (context, state) => const PurchaseListScreen(),
+          ),
+          GoRoute(
+            path: '/suppliers',
+            name: 'suppliers',
+            builder: (context, state) => const SupplierListScreen(),
+          ),
+          GoRoute(
+            path: '/pos/stock',
+            name: 'stock_overview',
+            builder: (context, state) => const StockOverviewScreen(),
+          ),
+          GoRoute(
+            path: '/pos/sales',
+            name: 'sales',
+            builder: (context, state) => const SaleListScreen(),
+          ),
+          GoRoute(
+            path: '/pos/quick-sale',
+            name: 'quick_sale',
+            builder: (context, state) => const QuickSaleScreen(),
+          ),
+          GoRoute(
+            path: '/pos/truck-loading',
+            name: 'stock_transfers',
+            builder: (context, state) => const StockTransferListScreen(),
+          ),
+          GoRoute(
+            path: '/pos/daily-report',
+            name: 'daily_pos_report',
+            builder: (context, state) => const DailyPosReportScreen(),
+          ),
+          GoRoute(
+            path: '/pos/delivery-route',
+            name: 'delivery_route',
+            builder: (context, state) => const DeliveryRouteScreen(),
+          ),
+          GoRoute(
             path: '/refunds',
             name: 'refunds',
             builder: (context, state) => const RefundListScreen(),
@@ -134,6 +195,16 @@ class AppRouter {
         builder: (context, state) => const AddEditArticleScreen(),
       ),
       GoRoute(
+        path: '/articles/:id',
+        name: 'article_details',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) {
+          final idString = state.pathParameters['id'];
+          final id = int.tryParse(idString ?? '') ?? 0;
+          return ArticleDetailsScreen(articleId: id);
+        },
+      ),
+      GoRoute(
         path: '/articles/edit/:id',
         name: 'edit_article',
         parentNavigatorKey: rootNavigatorKey,
@@ -141,6 +212,58 @@ class AppRouter {
           final idString = state.pathParameters['id'];
           final id = int.tryParse(idString ?? '') ?? 0;
           return AddEditArticleScreen(articleId: id);
+        },
+      ),
+      GoRoute(
+        path: '/purchases/create',
+        name: 'create_purchase',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const CreatePurchaseScreen(),
+      ),
+      GoRoute(
+        path: '/purchases/:id',
+        name: 'purchase_details',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) {
+          final idString = state.pathParameters['id'];
+          final id = int.tryParse(idString ?? '') ?? 0;
+          return PurchaseDetailScreen(purchaseId: id);
+        },
+      ),
+      GoRoute(
+        path: '/pos/sales/:id',
+        name: 'sale_details',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) {
+          final idString = state.pathParameters['id'];
+          final id = int.tryParse(idString ?? '') ?? 0;
+          return SaleDetailScreen(saleId: id);
+        },
+      ),
+      GoRoute(
+        path: '/pos/sales/:id/return',
+        name: 'sale_return',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) {
+          final idString = state.pathParameters['id'];
+          final id = int.tryParse(idString ?? '') ?? 0;
+          return SaleReturnScreen(saleId: id);
+        },
+      ),
+      GoRoute(
+        path: '/pos/truck-loading/create',
+        name: 'create_stock_transfer',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const StockTransferFormScreen(),
+      ),
+      GoRoute(
+        path: '/pos/truck-loading/:id',
+        name: 'stock_transfer_details',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) {
+          final idString = state.pathParameters['id'];
+          final id = int.tryParse(idString ?? '') ?? 0;
+          return StockTransferDetailScreen(transferId: id);
         },
       ),
       // These are siblings to the ShellRoute, so they use the root navigator
@@ -256,27 +379,10 @@ class ScaffoldWithBottomNavBar extends StatelessWidget {
       return Scaffold(
         body: Row(
           children: [
-            NavigationRail(
-              selectedIndex: selectedIndex.clamp(0, 6),
-              minWidth: 72,
-              groupAlignment: -0.85,
-              labelType: NavigationRailLabelType.all,
-              selectedIconTheme: const IconThemeData(
-                color: AppTheme.primaryIndigo,
-              ),
-              selectedLabelTextStyle: const TextStyle(
-                color: AppTheme.primaryIndigo,
-                fontWeight: FontWeight.w700,
-              ),
+            _DesktopSidebar(
+              selectedIndex: selectedIndex,
+              width: 220,
               onDestinationSelected: (index) => _goToIndex(context, index),
-              destinations: _mainDestinations(l10n)
-                  .map(
-                    (item) => NavigationRailDestination(
-                      icon: Icon(item.icon),
-                      label: Text(item.label),
-                    ),
-                  )
-                  .toList(),
             ),
             const VerticalDivider(width: 1),
             Expanded(child: child),
@@ -298,59 +404,46 @@ class ScaffoldWithBottomNavBar extends StatelessWidget {
         onTap: (index) {
           switch (index) {
             case 0:
-              context.goNamed('dashboard');
+              context.goNamed('delivery_route');
               break;
             case 1:
-              context.goNamed('projects');
+              context.goNamed('quick_sale');
               break;
             case 2:
-              context.goNamed('quotes');
+              context.goNamed('stock_transfers');
               break;
             case 3:
-              context.goNamed('invoices');
+              context.goNamed('stock_overview');
               break;
             case 4:
-              context.goNamed('payments');
+              context.goNamed('sales');
               break;
           }
         },
         items: [
           BottomNavigationBarItem(
-            icon: const Icon(Icons.dashboard_rounded),
-            label: l10n.dashboard,
+            icon: const Icon(Icons.route_rounded),
+            label: l10n.localeName == 'ar' ? 'الجولة' : 'Tournée',
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.folder_open_rounded),
-            label: l10n.projects,
+            icon: const Icon(Icons.point_of_sale_rounded),
+            label: l10n.quickSale,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.request_quote_rounded),
-            label: l10n.quotes,
+            icon: const Icon(Icons.local_shipping_rounded),
+            label: l10n.truckLoading,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.description_rounded),
-            label: l10n.invoices,
+            icon: const Icon(Icons.warehouse_rounded),
+            label: l10n.stockPos,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.payments_rounded),
-            label: l10n.payments,
+            icon: const Icon(Icons.receipt_long_rounded),
+            label: l10n.sales,
           ),
         ],
       ),
     );
-  }
-
-  List<_ShellDestination> _mainDestinations(AppLocalizations l10n) {
-    return [
-      _ShellDestination(l10n.dashboard, Icons.dashboard_rounded),
-      _ShellDestination(l10n.projects, Icons.folder_open_rounded),
-      _ShellDestination(l10n.clients, Icons.people_rounded),
-      _ShellDestination(l10n.quotes, Icons.request_quote_rounded),
-      _ShellDestination(l10n.invoices, Icons.description_rounded),
-      _ShellDestination(l10n.payments, Icons.payments_rounded),
-      _ShellDestination(l10n.refunds, Icons.assignment_return_rounded),
-      _ShellDestination(l10n.articles, Icons.inventory_2_rounded),
-    ];
   }
 
   void _goToIndex(BuildContext context, int index) {
@@ -359,87 +452,144 @@ class ScaffoldWithBottomNavBar extends StatelessWidget {
         context.goNamed('dashboard');
         break;
       case 1:
-        context.goNamed('projects');
+        context.goNamed('pos_home');
         break;
       case 2:
-        context.goNamed('clients');
+        context.goNamed('quick_sale');
         break;
       case 3:
-        context.goNamed('quotes');
+        context.goNamed('sales');
         break;
       case 4:
-        context.goNamed('invoices');
+        context.goNamed('daily_pos_report');
         break;
       case 5:
-        context.goNamed('payments');
+        context.goNamed('stock_overview');
         break;
       case 6:
-        context.goNamed('refunds');
+        context.goNamed('purchases');
         break;
       case 7:
+        context.goNamed('stock_transfers');
+        break;
+      case 8:
         context.goNamed('articles');
+        break;
+      case 9:
+        context.goNamed('suppliers');
+        break;
+      case 10:
+        context.goNamed('clients');
+        break;
+      case 11:
+        context.goNamed('quotes');
+        break;
+      case 12:
+        context.goNamed('invoices');
+        break;
+      case 13:
+        context.goNamed('payments');
+        break;
+      case 14:
+        context.goNamed('refunds');
+        break;
+      case 15:
+        context.goNamed('projects');
+        break;
+      case 16:
+        context.goNamed('expenses');
+        break;
+      case 17:
+        context.goNamed('delivery_route');
         break;
     }
   }
 
   int _mobileSelectedIndex(String location) {
-    if (location == '/') return 0;
-    if (location.startsWith('/projects') || location.startsWith('/expenses')) {
-      return 1;
+    if (location.startsWith('/pos/delivery-route') || location == '/pos') {
+      return 0;
     }
-    if (location.startsWith('/quotes')) return 2;
-    if (location.startsWith('/invoices')) return 3;
-    if (location.startsWith('/payments')) return 4;
+    if (location.startsWith('/pos/quick-sale')) return 1;
+    if (location.startsWith('/pos/truck-loading')) return 2;
+    if (location.startsWith('/pos/stock')) return 3;
+    if (location.startsWith('/pos/sales')) return 4;
     return 0;
   }
 
   int _calculateSelectedIndex(String location) {
     if (location == '/') return 0;
-    if (location.startsWith('/projects')) return 1;
-    if (location.startsWith('/expenses')) return 1;
-    if (location.startsWith('/clients')) return 2;
-    if (location.startsWith('/quotes')) return 3;
-    if (location.startsWith('/invoices')) return 4;
-    if (location.startsWith('/payments')) return 5;
-    if (location.startsWith('/refunds')) return 6;
-    if (location.startsWith('/articles')) return 7;
+    if (location == '/pos') return 1;
+    if (location.startsWith('/pos/delivery-route')) return 17;
+    if (location.startsWith('/pos/quick-sale')) return 2;
+    if (location.startsWith('/pos/sales')) return 3;
+    if (location.startsWith('/pos/daily-report')) return 4;
+    if (location.startsWith('/pos/stock')) return 5;
+    if (location.startsWith('/purchases')) return 6;
+    if (location.startsWith('/pos/truck-loading')) return 7;
+    if (location.startsWith('/articles')) return 8;
+    if (location.startsWith('/suppliers')) return 9;
+    if (location.startsWith('/clients')) return 10;
+    if (location.startsWith('/quotes')) return 11;
+    if (location.startsWith('/invoices')) return 12;
+    if (location.startsWith('/payments')) return 13;
+    if (location.startsWith('/refunds')) return 14;
+    if (location.startsWith('/projects')) return 15;
+    if (location.startsWith('/expenses')) return 16;
     return 0;
   }
-}
-
-class _ShellDestination {
-  final String label;
-  final IconData icon;
-
-  const _ShellDestination(this.label, this.icon);
 }
 
 class _DesktopSidebar extends ConsumerWidget {
   final int selectedIndex;
   final ValueChanged<int> onDestinationSelected;
+  final double width;
 
   const _DesktopSidebar({
     required this.selectedIndex,
     required this.onDestinationSelected,
+    this.width = 248,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final currentLocale = ref.watch(appLocaleProvider);
-    final items = [
-      _ShellDestination(l10n.dashboard, Icons.dashboard_rounded),
-      _ShellDestination(l10n.projects, Icons.folder_open_rounded),
-      _ShellDestination(l10n.clients, Icons.people_rounded),
-      _ShellDestination(l10n.quotes, Icons.request_quote_rounded),
-      _ShellDestination(l10n.invoices, Icons.description_rounded),
-      _ShellDestination(l10n.payments, Icons.payments_rounded),
-      _ShellDestination(l10n.refunds, Icons.assignment_return_rounded),
-      _ShellDestination(l10n.articles, Icons.inventory_2_rounded),
+    final groups = [
+      _SidebarGroup(l10n.principal, Icons.dashboard_rounded, [
+        _SidebarDestination(0, l10n.dashboard, Icons.dashboard_rounded),
+      ]),
+      _SidebarGroup(l10n.posVente, Icons.point_of_sale_rounded, [
+        _SidebarDestination(1, l10n.posHome, Icons.home_rounded),
+        _SidebarDestination(
+          17,
+          l10n.deliveryRoute,
+          Icons.local_shipping_rounded,
+        ),
+        _SidebarDestination(2, l10n.quickSale, Icons.point_of_sale_rounded),
+        _SidebarDestination(3, l10n.sales, Icons.receipt_long_rounded),
+        _SidebarDestination(4, l10n.dailyReportMenu, Icons.bar_chart_rounded),
+      ]),
+      _SidebarGroup(l10n.stockAchats, Icons.inventory_2_rounded, [
+        _SidebarDestination(5, l10n.stockPos, Icons.warehouse_rounded),
+        _SidebarDestination(6, l10n.purchases, Icons.add_shopping_cart_rounded),
+        _SidebarDestination(7, l10n.truckLoading, Icons.local_shipping_rounded),
+        _SidebarDestination(8, l10n.articles, Icons.inventory_2_rounded),
+        _SidebarDestination(9, l10n.suppliers, Icons.store_rounded),
+      ]),
+      _SidebarGroup(l10n.clientsDocuments, Icons.people_rounded, [
+        _SidebarDestination(10, l10n.clients, Icons.people_rounded),
+        _SidebarDestination(11, l10n.quotes, Icons.request_quote_rounded),
+        _SidebarDestination(12, l10n.invoices, Icons.description_rounded),
+        _SidebarDestination(13, l10n.payments, Icons.payments_rounded),
+        _SidebarDestination(14, l10n.refunds, Icons.assignment_return_rounded),
+      ]),
+      _SidebarGroup(l10n.expenses, Icons.receipt_long_rounded, [
+        _SidebarDestination(16, l10n.expenses, Icons.receipt_long_rounded),
+      ]),
     ];
 
     return Container(
-      width: 248,
+      width: width,
       color: Theme.of(context).colorScheme.surface,
       child: SafeArea(
         child: Column(
@@ -482,37 +632,19 @@ class _DesktopSidebar extends ConsumerWidget {
             ),
             const SizedBox(height: 12),
             Expanded(
-              child: ListView.builder(
+              child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  final item = items[index];
-                  final selected = selectedIndex == index;
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: ListTile(
-                      selected: selected,
-                      selectedColor: AppTheme.primaryIndigo,
-                      selectedTileColor: AppTheme.primaryIndigo.withValues(
-                        alpha: 0.08,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      leading: Icon(item.icon),
-                      title: Text(item.label),
-                      onTap: () => onDestinationSelected(index),
+                children: [
+                  for (final group in groups)
+                    _SidebarExpansionGroup(
+                      group: group,
+                      selectedIndex: selectedIndex,
+                      onDestinationSelected: onDestinationSelected,
                     ),
-                  );
-                },
+                ],
               ),
             ),
             const Divider(height: 1),
-            ListTile(
-              leading: const Icon(Icons.receipt_long),
-              title: Text(l10n.expenses),
-              onTap: () => context.goNamed('expenses'),
-            ),
             ListTile(
               leading: const Icon(Icons.settings),
               title: Text(l10n.settings),
@@ -527,9 +659,9 @@ class _DesktopSidebar extends ConsumerWidget {
                           (m['locale'] as Locale).languageCode ==
                           currentLocale.languageCode,
                       orElse: () => supportedLocalesInfo.first,
-                    )['flag']
+                    )['native']
                     as String,
-                style: const TextStyle(fontSize: 20),
+                style: const TextStyle(fontWeight: FontWeight.w700),
               ),
               onTap: () =>
                   _showLanguageDialog(context, ref, l10n, currentLocale),
@@ -557,10 +689,6 @@ class _DesktopSidebar extends ConsumerWidget {
             final locale = info['locale'] as Locale;
             final isSelected = locale.languageCode == current.languageCode;
             return ListTile(
-              leading: Text(
-                info['flag'] as String,
-                style: const TextStyle(fontSize: 22),
-              ),
               title: Text(info['native'] as String),
               trailing: isSelected
                   ? const Icon(Icons.check_circle, color: Colors.green)
@@ -572,6 +700,92 @@ class _DesktopSidebar extends ConsumerWidget {
             );
           }).toList(),
         ),
+      ),
+    );
+  }
+}
+
+class _SidebarGroup {
+  final String label;
+  final IconData icon;
+  final List<_SidebarDestination> items;
+
+  const _SidebarGroup(this.label, this.icon, this.items);
+}
+
+class _SidebarDestination {
+  final int index;
+  final String label;
+  final IconData icon;
+
+  const _SidebarDestination(this.index, this.label, this.icon);
+}
+
+class _SidebarExpansionGroup extends StatelessWidget {
+  final _SidebarGroup group;
+  final int selectedIndex;
+  final ValueChanged<int> onDestinationSelected;
+
+  const _SidebarExpansionGroup({
+    required this.group,
+    required this.selectedIndex,
+    required this.onDestinationSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final hasSelectedItem = group.items.any(
+      (item) => item.index == selectedIndex,
+    );
+    return ExpansionTile(
+      initiallyExpanded: hasSelectedItem,
+      leading: Icon(group.icon),
+      title: Text(
+        group.label,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          fontWeight: hasSelectedItem ? FontWeight.w800 : FontWeight.w600,
+        ),
+      ),
+      tilePadding: const EdgeInsets.symmetric(horizontal: 12),
+      childrenPadding: const EdgeInsets.only(left: 8, right: 4, bottom: 4),
+      children: [
+        for (final item in group.items)
+          _SidebarTile(
+            item: item,
+            selected: selectedIndex == item.index,
+            onTap: () => onDestinationSelected(item.index),
+          ),
+      ],
+    );
+  }
+}
+
+class _SidebarTile extends StatelessWidget {
+  final _SidebarDestination item;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _SidebarTile({
+    required this.item,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: ListTile(
+        dense: true,
+        selected: selected,
+        selectedColor: AppTheme.primaryIndigo,
+        selectedTileColor: AppTheme.primaryIndigo.withValues(alpha: 0.08),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        leading: Icon(item.icon),
+        title: Text(item.label, maxLines: 1, overflow: TextOverflow.ellipsis),
+        onTap: onTap,
       ),
     );
   }

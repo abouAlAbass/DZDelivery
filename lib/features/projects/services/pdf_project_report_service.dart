@@ -36,9 +36,16 @@ class PdfProjectReportService {
     final isRtl = l10n.localeName == 'ar';
     final textDirection = isRtl ? pw.TextDirection.rtl : pw.TextDirection.ltr;
     
-    // Load Fonts
-    final regular = await PdfGoogleFonts.notoSansRegular();
-    final bold = await PdfGoogleFonts.notoSansBold();
+    // Load Fonts with try-catch fallback for robust offline support
+    pw.Font regular;
+    pw.Font bold;
+    try {
+      regular = await PdfGoogleFonts.notoSansRegular();
+      bold = await PdfGoogleFonts.notoSansBold();
+    } catch (e) {
+      regular = pw.Font.helvetica();
+      bold = pw.Font.helveticaBold();
+    }
     
     pw.Font arabicRegular;
     pw.Font arabicBold;
@@ -144,7 +151,7 @@ class PdfProjectReportService {
 
     final output = await getTemporaryDirectory();
     final file = File(
-      p.join(output.path, 'project_report_${_safeFileName(project.name)}.pdf'),
+      p.join(output.path, 'project_report_${_safeFileName(project.name)}_${DateTime.now().millisecondsSinceEpoch}.pdf'),
     );
     await file.writeAsBytes(await pdf.save());
     return file;
@@ -760,7 +767,6 @@ class PdfProjectReportService {
   }
 
   static String _formatDate(DateTime date, AppLocalizations l10n, bool isRtl) {
-    if (!isRtl) return DateFormat.yMMMd(l10n.localeName).format(date);
     return DateFormat('dd/MM/yyyy', 'en').format(date);
   }
 

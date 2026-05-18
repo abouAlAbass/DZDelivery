@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/client_providers.dart';
 import '../../domain/entities/client.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../../../core/widgets/address_picker_field.dart';
 
 class ClientDetailsScreen extends ConsumerWidget {
   final int clientId;
@@ -90,6 +93,49 @@ class ClientDetailsScreen extends ConsumerWidget {
               client.address ?? l10n.notProvided,
             ),
           ]),
+          const SizedBox(height: 16),
+          if (client.latitude != null && client.longitude != null)
+            _buildMapCard(context, client),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMapCard(BuildContext context, Client client) {
+    final latLng = LatLng(client.latitude!, client.longitude!);
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: [
+          SizedBox(
+            height: 200,
+            child: GoogleMap(
+              initialCameraPosition: CameraPosition(target: latLng, zoom: 15),
+              markers: {
+                Marker(
+                  markerId: const MarkerId('client_location'),
+                  position: latLng,
+                ),
+              },
+              myLocationButtonEnabled: false,
+              zoomControlsEnabled: false,
+              scrollGesturesEnabled: false,
+              mapToolbarEnabled: false,
+            ),
+          ),
+          ListTile(
+            title: Text(client.addressName ?? client.address ?? 'Adresse'),
+            trailing: FilledButton.icon(
+              icon: const Icon(Icons.navigation),
+              label: const Text('Naviguer'),
+              onPressed: () async {
+                final url = Uri.parse('https://www.google.com/maps/dir/?api=1&destination=${client.latitude},${client.longitude}');
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url, mode: LaunchMode.externalApplication);
+                }
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -223,7 +269,9 @@ class _EditClientFormState extends ConsumerState<EditClientForm> {
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _phoneController;
-  late TextEditingController _addressController;
+  String? _addressName;
+  double? _latitude;
+  double? _longitude;
 
   @override
   void initState() {
@@ -231,7 +279,9 @@ class _EditClientFormState extends ConsumerState<EditClientForm> {
     _nameController = TextEditingController(text: widget.client.name);
     _emailController = TextEditingController(text: widget.client.email);
     _phoneController = TextEditingController(text: widget.client.phone);
-    _addressController = TextEditingController(text: widget.client.address);
+    _addressName = widget.client.addressName ?? widget.client.address;
+    _latitude = widget.client.latitude;
+    _longitude = widget.client.longitude;
   }
 
   @override
@@ -239,7 +289,6 @@ class _EditClientFormState extends ConsumerState<EditClientForm> {
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
-    _addressController.dispose();
     super.dispose();
   }
 
@@ -287,12 +336,15 @@ class _EditClientFormState extends ConsumerState<EditClientForm> {
               ),
             ),
             const SizedBox(height: 12),
-            TextFormField(
-              controller: _addressController,
-              decoration: InputDecoration(
-                labelText: l10n.address,
-                prefixIcon: const Icon(Icons.location_on),
-              ),
+            AddressPickerField(
+              initialAddressName: _addressName,
+              initialLatitude: _latitude,
+              initialLongitude: _longitude,
+              onChanged: (name, lat, lng) {
+                _addressName = name;
+                _latitude = lat;
+                _longitude = lng;
+              },
             ),
             const SizedBox(height: 24),
             ElevatedButton(
@@ -302,7 +354,10 @@ class _EditClientFormState extends ConsumerState<EditClientForm> {
                     name: _nameController.text,
                     email: _emailController.text,
                     phone: _phoneController.text,
-                    address: _addressController.text,
+                    address: _addressName,
+                    addressName: _addressName,
+                    latitude: _latitude,
+                    longitude: _longitude,
                   );
                   final navigator = Navigator.of(context);
                   await ref

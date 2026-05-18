@@ -36,6 +36,9 @@ class ClientRepositoryImpl implements ClientRepository {
         email: Value(client.email),
         phone: Value(client.phone),
         address: Value(client.address),
+        addressName: Value(client.addressName),
+        latitude: Value(client.latitude),
+        longitude: Value(client.longitude),
       ),
     );
   }
@@ -49,6 +52,9 @@ class ClientRepositoryImpl implements ClientRepository {
         email: Value(client.email),
         phone: Value(client.phone),
         address: Value(client.address),
+        addressName: Value(client.addressName),
+        latitude: Value(client.latitude),
+        longitude: Value(client.longitude),
       ),
     );
   }
@@ -89,6 +95,9 @@ class ClientRepositoryImpl implements ClientRepository {
       email: row.email,
       phone: row.phone,
       address: row.address,
+      addressName: row.addressName,
+      latitude: row.latitude,
+      longitude: row.longitude,
       createdAt: row.createdAt,
     );
   }

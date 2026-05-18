@@ -14,7 +14,9 @@ class AppDrawer extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final currentLocale = ref.watch(appLocaleProvider);
     final themeMode = ref.watch(themeProvider);
-    final isDarkMode = themeMode == ThemeMode.dark ||
+    final location = GoRouterState.of(context).uri.path;
+    final isDarkMode =
+        themeMode == ThemeMode.dark ||
         (themeMode == ThemeMode.system &&
             Theme.of(context).brightness == Brightness.dark);
 
@@ -53,103 +55,177 @@ class AppDrawer extends ConsumerWidget {
                 ),
               ),
             ),
-            // ... (keep other menu items)
-            ListTile(
-              leading: const Icon(Icons.search),
-              title: Text(l10n.globalSearch),
-              onTap: () {
-                Navigator.pop(context);
-                context.pushNamed('global_search');
-              },
+            _pushNamedTile(
+              context,
+              icon: Icons.search,
+              title: l10n.globalSearch,
+              routeName: 'global_search',
             ),
             const Divider(),
-            ListTile(
-              leading: const Icon(Icons.dashboard),
-              title: Text(l10n.dashboard),
-              onTap: () {
-                Navigator.pop(context);
-                context.go('/');
-              },
+            _goTile(
+              context,
+              icon: Icons.dashboard,
+              title: l10n.dashboard,
+              path: '/',
             ),
-            ListTile(
-              leading: const Icon(Icons.folder_open),
-              title: Text(l10n.projects),
-              onTap: () {
-                Navigator.pop(context);
-                context.go('/projects');
-              },
+            ExpansionTile(
+              leading: const Icon(Icons.point_of_sale),
+              title: Text(l10n.posVente),
+              initiallyExpanded:
+                  location.startsWith('/pos') &&
+                  !location.startsWith('/pos/stock') &&
+                  !location.startsWith('/pos/truck-loading'),
+              children: [
+                _goTile(
+                  context,
+                  icon: Icons.home_outlined,
+                  title: l10n.posHome,
+                  path: '/pos',
+                  nested: true,
+                ),
+                _goTile(
+                  context,
+                  icon: Icons.local_shipping_outlined,
+                  title: l10n.deliveryRoute,
+                  path: '/pos/delivery-route',
+                  nested: true,
+                ),
+                _goTile(
+                  context,
+                  icon: Icons.point_of_sale,
+                  title: l10n.quickSale,
+                  path: '/pos/quick-sale',
+                  nested: true,
+                ),
+                _goTile(
+                  context,
+                  icon: Icons.receipt_long,
+                  title: l10n.sales,
+                  path: '/pos/sales',
+                  nested: true,
+                ),
+                _goTile(
+                  context,
+                  icon: Icons.bar_chart,
+                  title: l10n.dailyReportMenu,
+                  path: '/pos/daily-report',
+                  nested: true,
+                ),
+              ],
             ),
-            ListTile(
-              leading: const Icon(Icons.people),
-              title: Text(l10n.clients),
-              onTap: () {
-                Navigator.pop(context);
-                context.go('/clients');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.request_quote),
-              title: Text(l10n.quotes),
-              onTap: () {
-                Navigator.pop(context);
-                context.go('/quotes');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.description),
-              title: Text(l10n.invoices),
-              onTap: () {
-                Navigator.pop(context);
-                context.go('/invoices');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.payments),
-              title: Text(l10n.payments),
-              onTap: () {
-                Navigator.pop(context);
-                context.go('/payments');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.assignment_return),
-              title: Text(l10n.refunds),
-              onTap: () {
-                Navigator.pop(context);
-                context.go('/refunds');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.receipt_long),
-              title: Text(l10n.expenses),
-              onTap: () {
-                Navigator.pop(context);
-                context.go('/expenses');
-              },
-            ),
-            ListTile(
+            ExpansionTile(
               leading: const Icon(Icons.inventory_2),
-              title: Text(l10n.articles),
-              onTap: () {
-                Navigator.pop(context);
-                context.go('/articles');
-              },
+              title: Text(l10n.stockAchats),
+              initiallyExpanded:
+                  location.startsWith('/articles') ||
+                  location.startsWith('/purchases') ||
+                  location.startsWith('/suppliers') ||
+                  location.startsWith('/pos/stock') ||
+                  location.startsWith('/pos/truck-loading'),
+              children: [
+                _goTile(
+                  context,
+                  icon: Icons.inventory_2,
+                  title: l10n.articles,
+                  path: '/articles',
+                  nested: true,
+                ),
+                _goTile(
+                  context,
+                  icon: Icons.warehouse,
+                  title: l10n.stockPos,
+                  path: '/pos/stock',
+                  nested: true,
+                ),
+                _goTile(
+                  context,
+                  icon: Icons.add_shopping_cart,
+                  title: l10n.purchases,
+                  path: '/purchases',
+                  nested: true,
+                ),
+                _goTile(
+                  context,
+                  icon: Icons.local_shipping,
+                  title: l10n.truckLoading,
+                  path: '/pos/truck-loading',
+                  nested: true,
+                ),
+                _goTile(
+                  context,
+                  icon: Icons.store,
+                  title: l10n.suppliers,
+                  path: '/suppliers',
+                  nested: true,
+                ),
+              ],
+            ),
+            ExpansionTile(
+              leading: const Icon(Icons.people),
+              title: Text(l10n.clientsDocuments),
+              initiallyExpanded:
+                  location.startsWith('/clients') ||
+                  location.startsWith('/quotes') ||
+                  location.startsWith('/invoices') ||
+                  location.startsWith('/payments') ||
+                  location.startsWith('/refunds'),
+              children: [
+                _goTile(
+                  context,
+                  icon: Icons.people,
+                  title: l10n.clients,
+                  path: '/clients',
+                  nested: true,
+                ),
+                _goTile(
+                  context,
+                  icon: Icons.request_quote,
+                  title: l10n.quotes,
+                  path: '/quotes',
+                  nested: true,
+                ),
+                _goTile(
+                  context,
+                  icon: Icons.description,
+                  title: l10n.invoices,
+                  path: '/invoices',
+                  nested: true,
+                ),
+                _goTile(
+                  context,
+                  icon: Icons.payments,
+                  title: l10n.payments,
+                  path: '/payments',
+                  nested: true,
+                ),
+                _goTile(
+                  context,
+                  icon: Icons.assignment_return,
+                  title: l10n.refunds,
+                  path: '/refunds',
+                  nested: true,
+                ),
+              ],
+            ),
+            _goTile(
+              context,
+              icon: Icons.receipt_long,
+              title: l10n.expenses,
+              path: '/expenses',
             ),
             const Divider(),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: Text(l10n.settings),
-              onTap: () {
-                Navigator.pop(context);
-                context.pushNamed('settings');
-              },
+            _pushNamedTile(
+              context,
+              icon: Icons.settings,
+              title: l10n.settings,
+              routeName: 'settings',
             ),
             SwitchListTile(
               secondary: Icon(
                 isDarkMode ? Icons.dark_mode : Icons.light_mode,
                 color: isDarkMode ? Colors.amber : Colors.blueGrey,
               ),
-              title: Text(isDarkMode ? 'Dark Mode' : 'Light Mode'),
+              title: Text(isDarkMode ? l10n.darkMode : l10n.lightMode),
               value: isDarkMode,
               onChanged: (_) => ref.read(themeProvider.notifier).toggleTheme(),
             ),
@@ -158,27 +234,79 @@ class AppDrawer extends ConsumerWidget {
               title: Text(l10n.selectLanguage),
               trailing: Text(
                 supportedLocalesInfo.firstWhere(
-                  (m) =>
-                      (m['locale'] as Locale).languageCode ==
-                      currentLocale.languageCode,
-                  orElse: () => supportedLocalesInfo.first,
-                )['flag'] as String,
-                style: const TextStyle(fontSize: 22),
+                      (m) =>
+                          (m['locale'] as Locale).languageCode ==
+                          currentLocale.languageCode,
+                      orElse: () => supportedLocalesInfo.first,
+                    )['native']
+                    as String,
+                style: const TextStyle(fontWeight: FontWeight.w700),
               ),
               onTap: () =>
                   _showLanguageDialog(context, ref, l10n, currentLocale),
             ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Text(
-                'Invoice Pro v1.0',
+                '${l10n.appTitle} v1.0',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey, fontSize: 12),
+                style: const TextStyle(color: Colors.grey, fontSize: 12),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _goTile(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String path,
+    bool nested = false,
+  }) {
+    final location = GoRouterState.of(context).uri.path;
+    final isSelected =
+        location == path || (path != '/' && location.startsWith(path));
+
+    return ListTile(
+      contentPadding: EdgeInsetsDirectional.only(
+        start: nested ? 32 : 16,
+        end: 16,
+      ),
+      leading: Icon(
+        icon,
+        color: isSelected ? Theme.of(context).colorScheme.primary : null,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          color: isSelected ? Theme.of(context).colorScheme.primary : null,
+        ),
+      ),
+      selected: isSelected,
+      onTap: () {
+        Navigator.pop(context);
+        context.go(path);
+      },
+    );
+  }
+
+  Widget _pushNamedTile(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String routeName,
+  }) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      onTap: () {
+        Navigator.pop(context);
+        context.pushNamed(routeName);
+      },
     );
   }
 
@@ -198,10 +326,6 @@ class AppDrawer extends ConsumerWidget {
             final locale = info['locale'] as Locale;
             final isSelected = locale.languageCode == current.languageCode;
             return ListTile(
-              leading: Text(
-                info['flag'] as String,
-                style: const TextStyle(fontSize: 22),
-              ),
               title: Text(info['native'] as String),
               trailing: isSelected
                   ? const Icon(Icons.check_circle, color: Colors.green)

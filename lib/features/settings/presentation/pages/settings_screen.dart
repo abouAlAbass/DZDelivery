@@ -200,8 +200,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final themeLabel = themeMode == ThemeMode.system
         ? l10n.systemTheme
         : themeMode == ThemeMode.dark
-            ? l10n.darkTheme
-            : l10n.lightTheme;
+        ? l10n.darkTheme
+        : l10n.lightTheme;
 
     return Card(
       child: ListTile(
@@ -256,8 +256,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              currentInfo['flag'] as String,
-              style: const TextStyle(fontSize: 22),
+              currentInfo['native'] as String,
+              style: const TextStyle(fontWeight: FontWeight.w700),
             ),
             const SizedBox(width: 8),
             const Icon(Icons.chevron_right),
@@ -288,10 +288,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 locale.languageCode == currentLocale.languageCode;
 
             return ListTile(
-              leading: Text(
-                info['flag'] as String,
-                style: const TextStyle(fontSize: 22),
-              ),
               title: Text(info['native'] as String),
               trailing: isSelected
                   ? const Icon(Icons.check_circle, color: Colors.green)

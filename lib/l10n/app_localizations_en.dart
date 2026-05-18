@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Invoice Pro';
+  String get appTitle => 'DeliveryDZ';
 
   @override
   String get dashboard => 'Dashboard';
@@ -195,10 +195,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get currency => 'Currency';
 
   @override
-  String get items => 'Items';
+  String get items => 'Products';
 
   @override
-  String get addItem => 'Add Line Item';
+  String get addItem => 'Add Product';
 
   @override
   String get description => 'Description';
@@ -234,7 +234,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectClient => 'Select Client';
 
   @override
-  String get selectArticle => 'Select Article';
+  String get selectArticle => 'Select Product';
 
   @override
   String get recordPayment => 'Record Payment';
@@ -393,7 +393,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get payment => 'Payment';
 
   @override
-  String get noPayments => 'No payments found';
+  String get noPayments => 'No payments';
 
   @override
   String get addPayment => 'Add Payment';
@@ -420,19 +420,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get relatedPayments => 'Related Payments';
 
   @override
-  String get articles => 'Articles';
+  String get articles => 'Products';
 
   @override
-  String get article => 'Article';
+  String get article => 'Product';
 
   @override
-  String get noArticles => 'No articles found';
+  String get noArticles => 'No products found';
 
   @override
-  String get addArticle => 'Add Article';
+  String get addArticle => 'Add Product';
 
   @override
-  String get editArticle => 'Edit Article';
+  String get editArticle => 'Edit Product';
 
   @override
   String get code => 'Code';
@@ -444,7 +444,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get measure => 'Measure';
 
   @override
-  String get searchArticles => 'Search articles...';
+  String get searchArticles => 'Search products...';
 
   @override
   String get pricePerUnit => 'Price per unit';
@@ -628,16 +628,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quickTemplateOrder => 'Display order';
 
   @override
-  String get configureQuickArticles => 'Configure quick articles';
+  String get configureQuickArticles => 'Configure quick products';
 
   @override
-  String get chooseFromArticles => 'Choose article';
+  String get chooseFromArticles => 'Choose product';
 
   @override
   String get addQuickTemplateArticles => 'Add quick template';
 
   @override
-  String get noQuickTemplateArticles => 'No quick template articles configured';
+  String get noQuickTemplateArticles => 'No quick products configured';
 
   @override
   String get articleCategory => 'Category';
@@ -685,7 +685,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get electricalLabor => 'Electrical labor';
 
   @override
-  String get masonryPreparation => 'Site preparation';
+  String get masonryPreparation => 'Surface preparation';
 
   @override
   String get blockWork => 'Block work';
@@ -694,10 +694,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get masonryLabor => 'Masonry labor';
 
   @override
-  String get siteAddress => 'Job site address';
+  String get siteAddress => 'Delivery address';
 
   @override
-  String get projectStatus => 'Job status';
+  String get projectStatus => 'Status';
 
   @override
   String get planned => 'Planned';
@@ -740,11 +740,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchEverything =>
-      'Search clients, invoices, projects, articles, payments...';
+      'Search clients, invoices, products, payments...';
 
   @override
   String get globalSearchHint =>
-      'Search by client, invoice number, project, article, payment method or note.';
+      'Search by client, invoice number, product, payment method or note.';
 
   @override
   String get noSearchResults => 'No matching results';
@@ -765,7 +765,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quickClient => 'Quick client';
 
   @override
-  String get quickArticle => 'Quick article';
+  String get quickArticle => 'Quick product';
 
   @override
   String get mobileQuickActions => 'Quick actions';
@@ -780,7 +780,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get monthlyExpenses => 'Expenses this month';
 
   @override
-  String get ongoingProjects => 'Ongoing jobs';
+  String get ongoingProjects => 'Ongoing';
 
   @override
   String get deleteClientErrorHasInvoices =>
@@ -915,4 +915,254 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get comment => 'Comment';
+
+  @override
+  String get suppliers => 'Suppliers';
+
+  @override
+  String get truckLoading => 'Truck Loading';
+
+  @override
+  String get newTruckLoading => 'New Truck Loading';
+
+  @override
+  String get saveDraft => 'Save Draft';
+
+  @override
+  String get confirmLoading => 'Confirm Loading';
+
+  @override
+  String get confirmLoadingMsg => 'Validate this loading and move stock?';
+
+  @override
+  String get loadingNotFound => 'Loading not found';
+
+  @override
+  String get stockPos => 'POS Stock';
+
+  @override
+  String get dailyReport => 'Delivery End of Day';
+
+  @override
+  String get truck => 'Truck';
+
+  @override
+  String get stockLoaded => 'Stock Loaded';
+
+  @override
+  String get sold => 'Sold';
+
+  @override
+  String get truckReturn => 'Truck Return';
+
+  @override
+  String get totalSales => 'Total Sales';
+
+  @override
+  String get clientCredit => 'Client Credit';
+
+  @override
+  String get shareReport => 'Share Report';
+
+  @override
+  String get purchaseLabel => 'Purchase';
+
+  @override
+  String get purchaseNotFound => 'Purchase not found';
+
+  @override
+  String get newPurchase => 'New Purchase';
+
+  @override
+  String get optional => 'Optional';
+
+  @override
+  String get validatePurchase => 'Validate Purchase';
+
+  @override
+  String get confirmPurchaseMsg => 'Confirm this purchase and add to stock?';
+
+  @override
+  String get chooseAddress => 'Choose Address';
+
+  @override
+  String get posVente => 'POS - Sales';
+
+  @override
+  String get posHome => 'POS Home';
+
+  @override
+  String get quickSale => 'Quick Sale';
+
+  @override
+  String get deliveryRoute => 'Daily Tour';
+
+  @override
+  String get dailyReportMenu => 'Daily Report';
+
+  @override
+  String get stockAchats => 'Stock & Purchases';
+
+  @override
+  String get clientsDocuments => 'Clients & Documents';
+
+  @override
+  String get darkMode => 'Dark Mode';
+
+  @override
+  String get lightMode => 'Light Mode';
+
+  @override
+  String get principal => 'Main';
+
+  @override
+  String get returns => 'Returns';
+
+  @override
+  String get noReturns => 'No returns';
+
+  @override
+  String get card => 'Card';
+
+  @override
+  String get baridiMob => 'BaridiMob';
+
+  @override
+  String get credit => 'Credit';
+
+  @override
+  String get cart => 'Cart';
+
+  @override
+  String get emptyCart => 'Cart is empty';
+
+  @override
+  String get confirmSale => 'Confirm Sale';
+
+  @override
+  String get discountError => 'Discount cannot exceed total';
+
+  @override
+  String get invalidAmountPaid => 'Invalid amount paid';
+
+  @override
+  String get insufficientStock => 'Insufficient stock';
+
+  @override
+  String get confirmSaleMsg => 'Validate this sale and update stock?';
+
+  @override
+  String get saleReturn => 'Sale Return';
+
+  @override
+  String get saleNotFound => 'Sale not found';
+
+  @override
+  String get totalReturn => 'Total Return';
+
+  @override
+  String get confirmReturn => 'Confirm Return';
+
+  @override
+  String get confirmReturnMsg => 'Validate this return and increase stock?';
+
+  @override
+  String get pdfReceipt => 'PDF Receipt';
+
+  @override
+  String get returnLabel => 'Return';
+
+  @override
+  String get addSupplier => 'Add Supplier';
+
+  @override
+  String get editSupplier => 'Edit Supplier';
+
+  @override
+  String get newSupplier => 'New Supplier';
+
+  @override
+  String get noLoadingYet => 'No loading yet';
+
+  @override
+  String get createLoadingInstructions =>
+      'Create a transfer from warehouse to truck.';
+
+  @override
+  String get sourceDepot => 'Source Depot';
+
+  @override
+  String get selectDepot => 'Select a depot';
+
+  @override
+  String get selectTruck => 'Select a truck';
+
+  @override
+  String get note => 'Note';
+
+  @override
+  String get selectProduct => 'Select a product';
+
+  @override
+  String get available => 'Available';
+
+  @override
+  String get invalidValue => 'Invalid value';
+
+  @override
+  String get sale => 'Sale';
+
+  @override
+  String get noStock => 'No stock';
+
+  @override
+  String get noStockInstructions => 'Add products and stock movements.';
+
+  @override
+  String get sales => 'Sales';
+
+  @override
+  String get purchases => 'Purchases';
+
+  @override
+  String get stock => 'Stock';
+
+  @override
+  String get noSales => 'No sales found';
+
+  @override
+  String get createQuickSaleInstructions => 'Create a quick sale from the POS.';
+
+  @override
+  String get productDetails => 'Product Details';
+
+  @override
+  String get salesTab => 'Sales';
+
+  @override
+  String get purchasesTab => 'Purchases';
+
+  @override
+  String get movementsTab => 'Movements';
+
+  @override
+  String get filterDate => 'Filter by date';
+
+  @override
+  String get clearFilter => 'Clear filter';
+
+  @override
+  String get noSalesFound => 'No sales found.';
+
+  @override
+  String get noPurchasesFound => 'No purchases found.';
+
+  @override
+  String get noMovementsFound => 'No stock movements found.';
+
+  @override
+  String get products => 'Products';
+
+  @override
+  String get finance => 'Finance';
 }

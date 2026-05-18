@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.costructor.invoiceapp" "\0"
-            VALUE "FileDescription", "invoice_app" "\0"
+            VALUE "FileDescription", "DeliveryDZ" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "invoice_app" "\0"
+            VALUE "InternalName", "DeliveryDZ" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2026 com.costructor.invoiceapp. All rights reserved." "\0"
-            VALUE "OriginalFilename", "invoice_app.exe" "\0"
-            VALUE "ProductName", "invoice_app" "\0"
+            VALUE "OriginalFilename", "DeliveryDZ.exe" "\0"
+            VALUE "ProductName", "DeliveryDZ" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

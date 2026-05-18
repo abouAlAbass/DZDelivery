@@ -183,20 +183,20 @@ class DashboardScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Icon(
-                    Icons.construction_outlined,
+                    Icons.people_outline,
                     color: Colors.white,
                     size: 30,
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   Text(
-                    '${stats['ongoingProjects']}',
+                    '${stats['totalClients']}',
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
                   Text(
-                    l10n.ongoingProjects,
+                    l10n.totalClients,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Colors.white.withValues(alpha: 0.82),
                     ),
@@ -361,10 +361,10 @@ class DashboardScreen extends ConsumerWidget {
           emphasized: true,
         ),
         MetricCard(
-          label: l10n.ongoingProjects,
-          value: '${stats['ongoingProjects']}',
-          icon: Icons.construction_outlined,
-          color: AppColors.project,
+          label: l10n.totalClients,
+          value: '${stats['totalClients']}',
+          icon: Icons.people_outline,
+          color: AppColors.info,
         ),
         MetricCard(
           label: l10n.overdueInvoices,

@@ -32,9 +32,16 @@ class PdfInvoiceService {
     final isRtl = l10n.localeName == 'ar';
     final textDirection = isRtl ? pw.TextDirection.rtl : pw.TextDirection.ltr;
     
-    // Load Fonts
-    final notoRegular = await PdfGoogleFonts.notoSansRegular();
-    final notoBold = await PdfGoogleFonts.notoSansBold();
+    // Load Fonts with try-catch fallback for robust offline support
+    pw.Font notoRegular;
+    pw.Font notoBold;
+    try {
+      notoRegular = await PdfGoogleFonts.notoSansRegular();
+      notoBold = await PdfGoogleFonts.notoSansBold();
+    } catch (e) {
+      notoRegular = pw.Font.helvetica();
+      notoBold = pw.Font.helveticaBold();
+    }
     
     pw.Font arabicRegular;
     pw.Font arabicBold;
@@ -103,7 +110,7 @@ class PdfInvoiceService {
 
     final output = await getTemporaryDirectory();
     final file = File(
-      p.join(output.path, 'invoice_${invoice.invoiceNumber}.pdf'),
+      p.join(output.path, 'invoice_${invoice.invoiceNumber}_${DateTime.now().millisecondsSinceEpoch}.pdf'),
     );
     await file.writeAsBytes(await pdf.save());
     return file;
@@ -827,8 +834,6 @@ class PdfInvoiceService {
   }
 
   static String _formatDate(DateTime date, AppLocalizations l10n, bool isRtl) {
-    if (!isRtl) return DateFormat.yMMMd(l10n.localeName).format(date);
-    // Use dd/MM/yyyy with Western digits for Arabic as requested
     return DateFormat('dd/MM/yyyy', 'en').format(date);
   }
 

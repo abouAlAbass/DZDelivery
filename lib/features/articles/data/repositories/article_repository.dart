@@ -25,7 +25,12 @@ class ArticleRepositoryImpl implements ArticleRepository {
               id: data.id,
               name: data.name,
               code: data.code,
+              barcode: data.barcode,
               price: data.price,
+              salePrice: data.salePrice,
+              purchasePrice: data.purchasePrice,
+              minStock: data.minStock,
+              isActive: data.isActive,
               unit: data.unit,
               type: data.type,
               category: data.category,
@@ -35,6 +40,8 @@ class ArticleRepositoryImpl implements ArticleRepository {
               defaultQuantity: data.defaultQuantity,
               quickTemplateOrder: data.quickTemplateOrder,
               createdAt: data.createdAt,
+              updatedAt: data.updatedAt,
+              deletedAt: data.deletedAt,
             ),
           )
           .toList();
@@ -49,7 +56,12 @@ class ArticleRepositoryImpl implements ArticleRepository {
           ArticlesCompanion.insert(
             name: article.name,
             code: Value(article.code),
+            barcode: Value(article.barcode),
             price: Value(article.price),
+            salePrice: Value(article.salePrice),
+            purchasePrice: Value(article.purchasePrice),
+            minStock: Value(article.minStock),
+            isActive: Value(article.isActive),
             unit: article.unit,
             type: Value(article.type),
             category: Value(article.category),
@@ -70,7 +82,12 @@ class ArticleRepositoryImpl implements ArticleRepository {
       ArticlesCompanion(
         name: Value(article.name),
         code: Value(article.code),
+        barcode: Value(article.barcode),
         price: Value(article.price),
+        salePrice: Value(article.salePrice),
+        purchasePrice: Value(article.purchasePrice),
+        minStock: Value(article.minStock),
+        isActive: Value(article.isActive),
         unit: Value(article.unit),
         type: Value(article.type),
         category: Value(article.category),
@@ -79,6 +96,8 @@ class ArticleRepositoryImpl implements ArticleRepository {
         quickTemplate: Value(article.quickTemplate),
         defaultQuantity: Value(article.defaultQuantity),
         quickTemplateOrder: Value(article.quickTemplateOrder),
+        updatedAt: Value(DateTime.now()),
+        deletedAt: Value(article.deletedAt),
       ),
     );
   }

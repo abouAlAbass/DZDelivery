@@ -30,18 +30,14 @@ class _MainAppState extends ConsumerState<MainApp> {
     final themeMode = ref.watch(themeProvider);
 
     return MaterialApp.router(
-      title: 'HissabDZ',
+      title: 'DeliveryDZ',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
       routerConfig: AppRouter.router,
       locale: locale,
-      supportedLocales: const [
-        Locale('en'),
-        Locale('fr'),
-        Locale('ar'),
-      ],
+      supportedLocales: const [Locale('en'), Locale('fr'), Locale('ar')],
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

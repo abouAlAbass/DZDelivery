@@ -24,7 +24,12 @@ mixin _$Article {
   int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
+  String? get barcode => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
+  double get salePrice => throw _privateConstructorUsedError;
+  double get purchasePrice => throw _privateConstructorUsedError;
+  double get minStock => throw _privateConstructorUsedError;
+  bool get isActive => throw _privateConstructorUsedError;
   String get unit => throw _privateConstructorUsedError; // kg, m2, m3, pieces
   String get type => throw _privateConstructorUsedError; // physical, service
   String get category => throw _privateConstructorUsedError;
@@ -34,6 +39,8 @@ mixin _$Article {
   double get defaultQuantity => throw _privateConstructorUsedError;
   int get quickTemplateOrder => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
+  DateTime? get deletedAt => throw _privateConstructorUsedError;
 
   /// Serializes this Article to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,7 +60,12 @@ abstract class $ArticleCopyWith<$Res> {
     int? id,
     String name,
     String? code,
+    String? barcode,
     double price,
+    double salePrice,
+    double purchasePrice,
+    double minStock,
+    bool isActive,
     String unit,
     String type,
     String category,
@@ -63,6 +75,8 @@ abstract class $ArticleCopyWith<$Res> {
     double defaultQuantity,
     int quickTemplateOrder,
     DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
   });
 }
 
@@ -84,7 +98,12 @@ class _$ArticleCopyWithImpl<$Res, $Val extends Article>
     Object? id = freezed,
     Object? name = null,
     Object? code = freezed,
+    Object? barcode = freezed,
     Object? price = null,
+    Object? salePrice = null,
+    Object? purchasePrice = null,
+    Object? minStock = null,
+    Object? isActive = null,
     Object? unit = null,
     Object? type = null,
     Object? category = null,
@@ -94,6 +113,8 @@ class _$ArticleCopyWithImpl<$Res, $Val extends Article>
     Object? defaultQuantity = null,
     Object? quickTemplateOrder = null,
     Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+    Object? deletedAt = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -109,10 +130,30 @@ class _$ArticleCopyWithImpl<$Res, $Val extends Article>
                 ? _value.code
                 : code // ignore: cast_nullable_to_non_nullable
                       as String?,
+            barcode: freezed == barcode
+                ? _value.barcode
+                : barcode // ignore: cast_nullable_to_non_nullable
+                      as String?,
             price: null == price
                 ? _value.price
                 : price // ignore: cast_nullable_to_non_nullable
                       as double,
+            salePrice: null == salePrice
+                ? _value.salePrice
+                : salePrice // ignore: cast_nullable_to_non_nullable
+                      as double,
+            purchasePrice: null == purchasePrice
+                ? _value.purchasePrice
+                : purchasePrice // ignore: cast_nullable_to_non_nullable
+                      as double,
+            minStock: null == minStock
+                ? _value.minStock
+                : minStock // ignore: cast_nullable_to_non_nullable
+                      as double,
+            isActive: null == isActive
+                ? _value.isActive
+                : isActive // ignore: cast_nullable_to_non_nullable
+                      as bool,
             unit: null == unit
                 ? _value.unit
                 : unit // ignore: cast_nullable_to_non_nullable
@@ -149,6 +190,14 @@ class _$ArticleCopyWithImpl<$Res, $Val extends Article>
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
                       as DateTime?,
+            updatedAt: freezed == updatedAt
+                ? _value.updatedAt
+                : updatedAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
+            deletedAt: freezed == deletedAt
+                ? _value.deletedAt
+                : deletedAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
           )
           as $Val,
     );
@@ -167,7 +216,12 @@ abstract class _$$ArticleImplCopyWith<$Res> implements $ArticleCopyWith<$Res> {
     int? id,
     String name,
     String? code,
+    String? barcode,
     double price,
+    double salePrice,
+    double purchasePrice,
+    double minStock,
+    bool isActive,
     String unit,
     String type,
     String category,
@@ -177,6 +231,8 @@ abstract class _$$ArticleImplCopyWith<$Res> implements $ArticleCopyWith<$Res> {
     double defaultQuantity,
     int quickTemplateOrder,
     DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
   });
 }
 
@@ -197,7 +253,12 @@ class __$$ArticleImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = null,
     Object? code = freezed,
+    Object? barcode = freezed,
     Object? price = null,
+    Object? salePrice = null,
+    Object? purchasePrice = null,
+    Object? minStock = null,
+    Object? isActive = null,
     Object? unit = null,
     Object? type = null,
     Object? category = null,
@@ -207,6 +268,8 @@ class __$$ArticleImplCopyWithImpl<$Res>
     Object? defaultQuantity = null,
     Object? quickTemplateOrder = null,
     Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+    Object? deletedAt = freezed,
   }) {
     return _then(
       _$ArticleImpl(
@@ -222,10 +285,30 @@ class __$$ArticleImplCopyWithImpl<$Res>
             ? _value.code
             : code // ignore: cast_nullable_to_non_nullable
                   as String?,
+        barcode: freezed == barcode
+            ? _value.barcode
+            : barcode // ignore: cast_nullable_to_non_nullable
+                  as String?,
         price: null == price
             ? _value.price
             : price // ignore: cast_nullable_to_non_nullable
                   as double,
+        salePrice: null == salePrice
+            ? _value.salePrice
+            : salePrice // ignore: cast_nullable_to_non_nullable
+                  as double,
+        purchasePrice: null == purchasePrice
+            ? _value.purchasePrice
+            : purchasePrice // ignore: cast_nullable_to_non_nullable
+                  as double,
+        minStock: null == minStock
+            ? _value.minStock
+            : minStock // ignore: cast_nullable_to_non_nullable
+                  as double,
+        isActive: null == isActive
+            ? _value.isActive
+            : isActive // ignore: cast_nullable_to_non_nullable
+                  as bool,
         unit: null == unit
             ? _value.unit
             : unit // ignore: cast_nullable_to_non_nullable
@@ -262,6 +345,14 @@ class __$$ArticleImplCopyWithImpl<$Res>
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
+        updatedAt: freezed == updatedAt
+            ? _value.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        deletedAt: freezed == deletedAt
+            ? _value.deletedAt
+            : deletedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
       ),
     );
   }
@@ -274,7 +365,12 @@ class _$ArticleImpl implements _Article {
     this.id,
     required this.name,
     this.code,
+    this.barcode,
     required this.price,
+    this.salePrice = 0.0,
+    this.purchasePrice = 0.0,
+    this.minStock = 0.0,
+    this.isActive = true,
     required this.unit,
     this.type = 'physical',
     this.category = 'materials',
@@ -284,6 +380,8 @@ class _$ArticleImpl implements _Article {
     this.defaultQuantity = 1.0,
     this.quickTemplateOrder = 0,
     this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
   });
 
   factory _$ArticleImpl.fromJson(Map<String, dynamic> json) =>
@@ -296,7 +394,21 @@ class _$ArticleImpl implements _Article {
   @override
   final String? code;
   @override
+  final String? barcode;
+  @override
   final double price;
+  @override
+  @JsonKey()
+  final double salePrice;
+  @override
+  @JsonKey()
+  final double purchasePrice;
+  @override
+  @JsonKey()
+  final double minStock;
+  @override
+  @JsonKey()
+  final bool isActive;
   @override
   final String unit;
   // kg, m2, m3, pieces
@@ -323,10 +435,14 @@ class _$ArticleImpl implements _Article {
   final int quickTemplateOrder;
   @override
   final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
+  @override
+  final DateTime? deletedAt;
 
   @override
   String toString() {
-    return 'Article(id: $id, name: $name, code: $code, price: $price, unit: $unit, type: $type, category: $category, taxRate: $taxRate, marginRate: $marginRate, quickTemplate: $quickTemplate, defaultQuantity: $defaultQuantity, quickTemplateOrder: $quickTemplateOrder, createdAt: $createdAt)';
+    return 'Article(id: $id, name: $name, code: $code, barcode: $barcode, price: $price, salePrice: $salePrice, purchasePrice: $purchasePrice, minStock: $minStock, isActive: $isActive, unit: $unit, type: $type, category: $category, taxRate: $taxRate, marginRate: $marginRate, quickTemplate: $quickTemplate, defaultQuantity: $defaultQuantity, quickTemplateOrder: $quickTemplateOrder, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
   }
 
   @override
@@ -337,7 +453,16 @@ class _$ArticleImpl implements _Article {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.code, code) || other.code == code) &&
+            (identical(other.barcode, barcode) || other.barcode == barcode) &&
             (identical(other.price, price) || other.price == price) &&
+            (identical(other.salePrice, salePrice) ||
+                other.salePrice == salePrice) &&
+            (identical(other.purchasePrice, purchasePrice) ||
+                other.purchasePrice == purchasePrice) &&
+            (identical(other.minStock, minStock) ||
+                other.minStock == minStock) &&
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive) &&
             (identical(other.unit, unit) || other.unit == unit) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.category, category) ||
@@ -352,17 +477,26 @@ class _$ArticleImpl implements _Article {
             (identical(other.quickTemplateOrder, quickTemplateOrder) ||
                 other.quickTemplateOrder == quickTemplateOrder) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     runtimeType,
     id,
     name,
     code,
+    barcode,
     price,
+    salePrice,
+    purchasePrice,
+    minStock,
+    isActive,
     unit,
     type,
     category,
@@ -372,7 +506,9 @@ class _$ArticleImpl implements _Article {
     defaultQuantity,
     quickTemplateOrder,
     createdAt,
-  );
+    updatedAt,
+    deletedAt,
+  ]);
 
   /// Create a copy of Article
   /// with the given fields replaced by the non-null parameter values.
@@ -393,7 +529,12 @@ abstract class _Article implements Article {
     final int? id,
     required final String name,
     final String? code,
+    final String? barcode,
     required final double price,
+    final double salePrice,
+    final double purchasePrice,
+    final double minStock,
+    final bool isActive,
     required final String unit,
     final String type,
     final String category,
@@ -403,6 +544,8 @@ abstract class _Article implements Article {
     final double defaultQuantity,
     final int quickTemplateOrder,
     final DateTime? createdAt,
+    final DateTime? updatedAt,
+    final DateTime? deletedAt,
   }) = _$ArticleImpl;
 
   factory _Article.fromJson(Map<String, dynamic> json) = _$ArticleImpl.fromJson;
@@ -414,7 +557,17 @@ abstract class _Article implements Article {
   @override
   String? get code;
   @override
+  String? get barcode;
+  @override
   double get price;
+  @override
+  double get salePrice;
+  @override
+  double get purchasePrice;
+  @override
+  double get minStock;
+  @override
+  bool get isActive;
   @override
   String get unit; // kg, m2, m3, pieces
   @override
@@ -433,6 +586,10 @@ abstract class _Article implements Article {
   int get quickTemplateOrder;
   @override
   DateTime? get createdAt;
+  @override
+  DateTime? get updatedAt;
+  @override
+  DateTime? get deletedAt;
 
   /// Create a copy of Article
   /// with the given fields replaced by the non-null parameter values.

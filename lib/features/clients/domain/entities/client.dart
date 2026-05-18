@@ -11,6 +11,9 @@ class Client with _$Client {
     String? email,
     String? phone,
     String? address,
+    String? addressName,
+    double? latitude,
+    double? longitude,
     DateTime? createdAt,
   }) = _Client;
 

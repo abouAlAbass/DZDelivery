@@ -103,7 +103,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'Invoice Pro'**
+  /// **'DeliveryDZ'**
   String get appTitle;
 
   /// No description provided for @dashboard.
@@ -475,13 +475,13 @@ abstract class AppLocalizations {
   /// No description provided for @items.
   ///
   /// In en, this message translates to:
-  /// **'Items'**
+  /// **'Products'**
   String get items;
 
   /// No description provided for @addItem.
   ///
   /// In en, this message translates to:
-  /// **'Add Line Item'**
+  /// **'Add Product'**
   String get addItem;
 
   /// No description provided for @description.
@@ -553,7 +553,7 @@ abstract class AppLocalizations {
   /// No description provided for @selectArticle.
   ///
   /// In en, this message translates to:
-  /// **'Select Article'**
+  /// **'Select Product'**
   String get selectArticle;
 
   /// No description provided for @recordPayment.
@@ -865,7 +865,7 @@ abstract class AppLocalizations {
   /// No description provided for @noPayments.
   ///
   /// In en, this message translates to:
-  /// **'No payments found'**
+  /// **'No payments'**
   String get noPayments;
 
   /// No description provided for @addPayment.
@@ -919,31 +919,31 @@ abstract class AppLocalizations {
   /// No description provided for @articles.
   ///
   /// In en, this message translates to:
-  /// **'Articles'**
+  /// **'Products'**
   String get articles;
 
   /// No description provided for @article.
   ///
   /// In en, this message translates to:
-  /// **'Article'**
+  /// **'Product'**
   String get article;
 
   /// No description provided for @noArticles.
   ///
   /// In en, this message translates to:
-  /// **'No articles found'**
+  /// **'No products found'**
   String get noArticles;
 
   /// No description provided for @addArticle.
   ///
   /// In en, this message translates to:
-  /// **'Add Article'**
+  /// **'Add Product'**
   String get addArticle;
 
   /// No description provided for @editArticle.
   ///
   /// In en, this message translates to:
-  /// **'Edit Article'**
+  /// **'Edit Product'**
   String get editArticle;
 
   /// No description provided for @code.
@@ -967,7 +967,7 @@ abstract class AppLocalizations {
   /// No description provided for @searchArticles.
   ///
   /// In en, this message translates to:
-  /// **'Search articles...'**
+  /// **'Search products...'**
   String get searchArticles;
 
   /// No description provided for @pricePerUnit.
@@ -1333,13 +1333,13 @@ abstract class AppLocalizations {
   /// No description provided for @configureQuickArticles.
   ///
   /// In en, this message translates to:
-  /// **'Configure quick articles'**
+  /// **'Configure quick products'**
   String get configureQuickArticles;
 
   /// No description provided for @chooseFromArticles.
   ///
   /// In en, this message translates to:
-  /// **'Choose article'**
+  /// **'Choose product'**
   String get chooseFromArticles;
 
   /// No description provided for @addQuickTemplateArticles.
@@ -1351,7 +1351,7 @@ abstract class AppLocalizations {
   /// No description provided for @noQuickTemplateArticles.
   ///
   /// In en, this message translates to:
-  /// **'No quick template articles configured'**
+  /// **'No quick products configured'**
   String get noQuickTemplateArticles;
 
   /// No description provided for @articleCategory.
@@ -1447,7 +1447,7 @@ abstract class AppLocalizations {
   /// No description provided for @masonryPreparation.
   ///
   /// In en, this message translates to:
-  /// **'Site preparation'**
+  /// **'Surface preparation'**
   String get masonryPreparation;
 
   /// No description provided for @blockWork.
@@ -1465,13 +1465,13 @@ abstract class AppLocalizations {
   /// No description provided for @siteAddress.
   ///
   /// In en, this message translates to:
-  /// **'Job site address'**
+  /// **'Delivery address'**
   String get siteAddress;
 
   /// No description provided for @projectStatus.
   ///
   /// In en, this message translates to:
-  /// **'Job status'**
+  /// **'Status'**
   String get projectStatus;
 
   /// No description provided for @planned.
@@ -1555,13 +1555,13 @@ abstract class AppLocalizations {
   /// No description provided for @searchEverything.
   ///
   /// In en, this message translates to:
-  /// **'Search clients, invoices, projects, articles, payments...'**
+  /// **'Search clients, invoices, products, payments...'**
   String get searchEverything;
 
   /// No description provided for @globalSearchHint.
   ///
   /// In en, this message translates to:
-  /// **'Search by client, invoice number, project, article, payment method or note.'**
+  /// **'Search by client, invoice number, product, payment method or note.'**
   String get globalSearchHint;
 
   /// No description provided for @noSearchResults.
@@ -1603,7 +1603,7 @@ abstract class AppLocalizations {
   /// No description provided for @quickArticle.
   ///
   /// In en, this message translates to:
-  /// **'Quick article'**
+  /// **'Quick product'**
   String get quickArticle;
 
   /// No description provided for @mobileQuickActions.
@@ -1633,7 +1633,7 @@ abstract class AppLocalizations {
   /// No description provided for @ongoingProjects.
   ///
   /// In en, this message translates to:
-  /// **'Ongoing jobs'**
+  /// **'Ongoing'**
   String get ongoingProjects;
 
   /// No description provided for @deleteClientErrorHasInvoices.
@@ -1887,6 +1887,504 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comment'**
   String get comment;
+
+  /// No description provided for @suppliers.
+  ///
+  /// In en, this message translates to:
+  /// **'Suppliers'**
+  String get suppliers;
+
+  /// No description provided for @truckLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Truck Loading'**
+  String get truckLoading;
+
+  /// No description provided for @newTruckLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'New Truck Loading'**
+  String get newTruckLoading;
+
+  /// No description provided for @saveDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Draft'**
+  String get saveDraft;
+
+  /// No description provided for @confirmLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Loading'**
+  String get confirmLoading;
+
+  /// No description provided for @confirmLoadingMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Validate this loading and move stock?'**
+  String get confirmLoadingMsg;
+
+  /// No description provided for @loadingNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading not found'**
+  String get loadingNotFound;
+
+  /// No description provided for @stockPos.
+  ///
+  /// In en, this message translates to:
+  /// **'POS Stock'**
+  String get stockPos;
+
+  /// No description provided for @dailyReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery End of Day'**
+  String get dailyReport;
+
+  /// No description provided for @truck.
+  ///
+  /// In en, this message translates to:
+  /// **'Truck'**
+  String get truck;
+
+  /// No description provided for @stockLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Stock Loaded'**
+  String get stockLoaded;
+
+  /// No description provided for @sold.
+  ///
+  /// In en, this message translates to:
+  /// **'Sold'**
+  String get sold;
+
+  /// No description provided for @truckReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Truck Return'**
+  String get truckReturn;
+
+  /// No description provided for @totalSales.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Sales'**
+  String get totalSales;
+
+  /// No description provided for @clientCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Client Credit'**
+  String get clientCredit;
+
+  /// No description provided for @shareReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Report'**
+  String get shareReport;
+
+  /// No description provided for @purchaseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase'**
+  String get purchaseLabel;
+
+  /// No description provided for @purchaseNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase not found'**
+  String get purchaseNotFound;
+
+  /// No description provided for @newPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'New Purchase'**
+  String get newPurchase;
+
+  /// No description provided for @optional.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get optional;
+
+  /// No description provided for @validatePurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Validate Purchase'**
+  String get validatePurchase;
+
+  /// No description provided for @confirmPurchaseMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm this purchase and add to stock?'**
+  String get confirmPurchaseMsg;
+
+  /// No description provided for @chooseAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Address'**
+  String get chooseAddress;
+
+  /// No description provided for @posVente.
+  ///
+  /// In en, this message translates to:
+  /// **'POS - Sales'**
+  String get posVente;
+
+  /// No description provided for @posHome.
+  ///
+  /// In en, this message translates to:
+  /// **'POS Home'**
+  String get posHome;
+
+  /// No description provided for @quickSale.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Sale'**
+  String get quickSale;
+
+  /// No description provided for @deliveryRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Tour'**
+  String get deliveryRoute;
+
+  /// No description provided for @dailyReportMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Report'**
+  String get dailyReportMenu;
+
+  /// No description provided for @stockAchats.
+  ///
+  /// In en, this message translates to:
+  /// **'Stock & Purchases'**
+  String get stockAchats;
+
+  /// No description provided for @clientsDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients & Documents'**
+  String get clientsDocuments;
+
+  /// No description provided for @darkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get darkMode;
+
+  /// No description provided for @lightMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Mode'**
+  String get lightMode;
+
+  /// No description provided for @principal.
+  ///
+  /// In en, this message translates to:
+  /// **'Main'**
+  String get principal;
+
+  /// No description provided for @returns.
+  ///
+  /// In en, this message translates to:
+  /// **'Returns'**
+  String get returns;
+
+  /// No description provided for @noReturns.
+  ///
+  /// In en, this message translates to:
+  /// **'No returns'**
+  String get noReturns;
+
+  /// No description provided for @card.
+  ///
+  /// In en, this message translates to:
+  /// **'Card'**
+  String get card;
+
+  /// No description provided for @baridiMob.
+  ///
+  /// In en, this message translates to:
+  /// **'BaridiMob'**
+  String get baridiMob;
+
+  /// No description provided for @credit.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit'**
+  String get credit;
+
+  /// No description provided for @cart.
+  ///
+  /// In en, this message translates to:
+  /// **'Cart'**
+  String get cart;
+
+  /// No description provided for @emptyCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Cart is empty'**
+  String get emptyCart;
+
+  /// No description provided for @confirmSale.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Sale'**
+  String get confirmSale;
+
+  /// No description provided for @discountError.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount cannot exceed total'**
+  String get discountError;
+
+  /// No description provided for @invalidAmountPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid amount paid'**
+  String get invalidAmountPaid;
+
+  /// No description provided for @insufficientStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Insufficient stock'**
+  String get insufficientStock;
+
+  /// No description provided for @confirmSaleMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Validate this sale and update stock?'**
+  String get confirmSaleMsg;
+
+  /// No description provided for @saleReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale Return'**
+  String get saleReturn;
+
+  /// No description provided for @saleNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale not found'**
+  String get saleNotFound;
+
+  /// No description provided for @totalReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Return'**
+  String get totalReturn;
+
+  /// No description provided for @confirmReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Return'**
+  String get confirmReturn;
+
+  /// No description provided for @confirmReturnMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Validate this return and increase stock?'**
+  String get confirmReturnMsg;
+
+  /// No description provided for @pdfReceipt.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF Receipt'**
+  String get pdfReceipt;
+
+  /// No description provided for @returnLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Return'**
+  String get returnLabel;
+
+  /// No description provided for @addSupplier.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Supplier'**
+  String get addSupplier;
+
+  /// No description provided for @editSupplier.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Supplier'**
+  String get editSupplier;
+
+  /// No description provided for @newSupplier.
+  ///
+  /// In en, this message translates to:
+  /// **'New Supplier'**
+  String get newSupplier;
+
+  /// No description provided for @noLoadingYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No loading yet'**
+  String get noLoadingYet;
+
+  /// No description provided for @createLoadingInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a transfer from warehouse to truck.'**
+  String get createLoadingInstructions;
+
+  /// No description provided for @sourceDepot.
+  ///
+  /// In en, this message translates to:
+  /// **'Source Depot'**
+  String get sourceDepot;
+
+  /// No description provided for @selectDepot.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a depot'**
+  String get selectDepot;
+
+  /// No description provided for @selectTruck.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a truck'**
+  String get selectTruck;
+
+  /// No description provided for @note.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get note;
+
+  /// No description provided for @selectProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a product'**
+  String get selectProduct;
+
+  /// No description provided for @available.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get available;
+
+  /// No description provided for @invalidValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid value'**
+  String get invalidValue;
+
+  /// No description provided for @sale.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale'**
+  String get sale;
+
+  /// No description provided for @noStock.
+  ///
+  /// In en, this message translates to:
+  /// **'No stock'**
+  String get noStock;
+
+  /// No description provided for @noStockInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Add products and stock movements.'**
+  String get noStockInstructions;
+
+  /// No description provided for @sales.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales'**
+  String get sales;
+
+  /// No description provided for @purchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchases'**
+  String get purchases;
+
+  /// No description provided for @stock.
+  ///
+  /// In en, this message translates to:
+  /// **'Stock'**
+  String get stock;
+
+  /// No description provided for @noSales.
+  ///
+  /// In en, this message translates to:
+  /// **'No sales found'**
+  String get noSales;
+
+  /// No description provided for @createQuickSaleInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a quick sale from the POS.'**
+  String get createQuickSaleInstructions;
+
+  /// No description provided for @productDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Product Details'**
+  String get productDetails;
+
+  /// No description provided for @salesTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales'**
+  String get salesTab;
+
+  /// No description provided for @purchasesTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchases'**
+  String get purchasesTab;
+
+  /// No description provided for @movementsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Movements'**
+  String get movementsTab;
+
+  /// No description provided for @filterDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by date'**
+  String get filterDate;
+
+  /// No description provided for @clearFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filter'**
+  String get clearFilter;
+
+  /// No description provided for @noSalesFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No sales found.'**
+  String get noSalesFound;
+
+  /// No description provided for @noPurchasesFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No purchases found.'**
+  String get noPurchasesFound;
+
+  /// No description provided for @noMovementsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No stock movements found.'**
+  String get noMovementsFound;
+
+  /// No description provided for @products.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get products;
+
+  /// No description provided for @finance.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance'**
+  String get finance;
 }
 
 class _AppLocalizationsDelegate

@@ -9,7 +9,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appTitle => 'Invoice Pro';
+  String get appTitle => 'DeliveryDZ';
 
   @override
   String get dashboard => 'لوحة التحكم';
@@ -195,10 +195,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get currency => 'العملة';
 
   @override
-  String get items => 'البنود';
+  String get items => 'المنتجات';
 
   @override
-  String get addItem => 'إضافة بند';
+  String get addItem => 'إضافة منتج';
 
   @override
   String get description => 'الوصف';
@@ -234,7 +234,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get selectClient => 'اختر العميل';
 
   @override
-  String get selectArticle => 'اختر الصنف';
+  String get selectArticle => 'اختر المنتج';
 
   @override
   String get recordPayment => 'تسجيل دفعة';
@@ -419,19 +419,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get relatedPayments => 'المدفوعات المتعلقة';
 
   @override
-  String get articles => 'الأصناف';
+  String get articles => 'المنتجات';
 
   @override
-  String get article => 'الصنف';
+  String get article => 'المنتج';
 
   @override
-  String get noArticles => 'لا توجد أصناف';
+  String get noArticles => 'لا توجد منتجات';
 
   @override
-  String get addArticle => 'إضافة صنف';
+  String get addArticle => 'إضافة منتج';
 
   @override
-  String get editArticle => 'تعديل الصنف';
+  String get editArticle => 'تعديل المنتج';
 
   @override
   String get code => 'الكود';
@@ -443,7 +443,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get measure => 'القياس';
 
   @override
-  String get searchArticles => 'البحث عن أصناف...';
+  String get searchArticles => 'البحث عن منتجات...';
 
   @override
   String get pricePerUnit => 'السعر لكل وحدة';
@@ -627,16 +627,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quickTemplateOrder => 'ترتيب العرض';
 
   @override
-  String get configureQuickArticles => 'إعداد المقالات السريعة';
+  String get configureQuickArticles => 'إعداد المنتجات السريعة';
 
   @override
-  String get chooseFromArticles => 'اختيار مقال';
+  String get chooseFromArticles => 'اختيار منتج';
 
   @override
   String get addQuickTemplateArticles => 'إضافة نموذج سريع';
 
   @override
-  String get noQuickTemplateArticles => 'لا توجد مقالات سريعة معدة';
+  String get noQuickTemplateArticles => 'لا توجد منتجات سريعة معدة';
 
   @override
   String get articleCategory => 'الفئة';
@@ -684,7 +684,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get electricalLabor => 'يد عمل الكهرباء';
 
   @override
-  String get masonryPreparation => 'تحضير الورشة';
+  String get masonryPreparation => 'تحضير السطح';
 
   @override
   String get blockWork => 'أعمال الطوب';
@@ -693,10 +693,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get masonryLabor => 'يد عمل البناء';
 
   @override
-  String get siteAddress => 'عنوان الورشة';
+  String get siteAddress => 'عنوان التوصيل';
 
   @override
-  String get projectStatus => 'حالة الورشة';
+  String get projectStatus => 'الحالة';
 
   @override
   String get planned => 'مخطط';
@@ -739,11 +739,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get searchEverything =>
-      'ابحث عن العملاء، الفواتير، المشاريع، المواد، الدفعات...';
+      'ابحث عن العملاء، الفواتير، المنتجات، الدفعات...';
 
   @override
   String get globalSearchHint =>
-      'ابحث باسم العميل، رقم الفاتورة، المشروع، المادة، طريقة الدفع أو ملاحظة.';
+      'ابحث باسم العميل، رقم الفاتورة، المنتج، طريقة الدفع أو ملاحظة.';
 
   @override
   String get noSearchResults => 'لا توجد نتائج مطابقة';
@@ -764,7 +764,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quickClient => 'عميل سريع';
 
   @override
-  String get quickArticle => 'مادة سريعة';
+  String get quickArticle => 'منتج سريع';
 
   @override
   String get mobileQuickActions => 'إجراءات سريعة';
@@ -779,7 +779,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get monthlyExpenses => 'مصاريف هذا الشهر';
 
   @override
-  String get ongoingProjects => 'الورشات الجارية';
+  String get ongoingProjects => 'الجارية';
 
   @override
   String get deleteClientErrorHasInvoices =>
@@ -914,4 +914,254 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get comment => 'تعليق';
+
+  @override
+  String get suppliers => 'الموردون';
+
+  @override
+  String get truckLoading => 'شحن الشاحنة';
+
+  @override
+  String get newTruckLoading => 'شحن شاحنة جديد';
+
+  @override
+  String get saveDraft => 'حفظ كمسودة';
+
+  @override
+  String get confirmLoading => 'تأكيد الشحن';
+
+  @override
+  String get confirmLoadingMsg => 'تأكيد هذا الشحن ونقل المخزون؟';
+
+  @override
+  String get loadingNotFound => 'الشحن غير موجود';
+
+  @override
+  String get stockPos => 'مخزون نقطة البيع';
+
+  @override
+  String get dailyReport => 'نهاية يوم الموزع';
+
+  @override
+  String get truck => 'الشاحنة';
+
+  @override
+  String get stockLoaded => 'المخزون المشحون';
+
+  @override
+  String get sold => 'المباع';
+
+  @override
+  String get truckReturn => 'المرتجع للشاحنة';
+
+  @override
+  String get totalSales => 'إجمالي المبيعات';
+
+  @override
+  String get clientCredit => 'رصيد العميل / دين';
+
+  @override
+  String get shareReport => 'مشاركة التقرير';
+
+  @override
+  String get purchaseLabel => 'الشراء';
+
+  @override
+  String get purchaseNotFound => 'المشتريات غير موجودة';
+
+  @override
+  String get newPurchase => 'شراء جديد';
+
+  @override
+  String get optional => 'اختياري';
+
+  @override
+  String get validatePurchase => 'تأكيد الشراء';
+
+  @override
+  String get confirmPurchaseMsg => 'تأكيد هذا الشراء وإضافته إلى المخزون؟';
+
+  @override
+  String get chooseAddress => 'اختر العنوان';
+
+  @override
+  String get posVente => 'نقطة البيع - المبيعات';
+
+  @override
+  String get posHome => 'رئيسية نقطة البيع';
+
+  @override
+  String get quickSale => 'بيع سريع';
+
+  @override
+  String get deliveryRoute => 'جولة اليوم';
+
+  @override
+  String get dailyReportMenu => 'التقرير اليومي';
+
+  @override
+  String get stockAchats => 'المخزون والمشتريات';
+
+  @override
+  String get clientsDocuments => 'العملاء والمستندات';
+
+  @override
+  String get darkMode => 'الوضع الداكن';
+
+  @override
+  String get lightMode => 'الوضع الفاتح';
+
+  @override
+  String get principal => 'الرئيسية';
+
+  @override
+  String get returns => 'المرتجع';
+
+  @override
+  String get noReturns => 'لا توجد مرتجعات';
+
+  @override
+  String get card => 'بطاقة';
+
+  @override
+  String get baridiMob => 'بريدي موب';
+
+  @override
+  String get credit => 'دين / على الحساب';
+
+  @override
+  String get cart => 'السلة';
+
+  @override
+  String get emptyCart => 'السلة فارغة';
+
+  @override
+  String get confirmSale => 'تأكيد البيع';
+
+  @override
+  String get discountError => 'الخصم لا يمكن أن يتجاوز الإجمالي';
+
+  @override
+  String get invalidAmountPaid => 'المبلغ المدفوع غير صالح';
+
+  @override
+  String get insufficientStock => 'المخزون غير كافٍ';
+
+  @override
+  String get confirmSaleMsg => 'تأكيد هذا البيع وتحديث المخزون؟';
+
+  @override
+  String get saleReturn => 'إرجاع المبيعات';
+
+  @override
+  String get saleNotFound => 'المبيعات غير موجودة';
+
+  @override
+  String get totalReturn => 'إجمالي المرتجع';
+
+  @override
+  String get confirmReturn => 'تأكيد الإرجاع';
+
+  @override
+  String get confirmReturnMsg => 'تأكيد هذا الإرجاع وزيادة المخزون؟';
+
+  @override
+  String get pdfReceipt => 'وصل PDF';
+
+  @override
+  String get returnLabel => 'إرجاع';
+
+  @override
+  String get addSupplier => 'إضافة مورد';
+
+  @override
+  String get editSupplier => 'تعديل المورد';
+
+  @override
+  String get newSupplier => 'مورد جديد';
+
+  @override
+  String get noLoadingYet => 'لا توجد عمليات شحن';
+
+  @override
+  String get createLoadingInstructions =>
+      'قم بإنشاء تحويل من المستودع إلى الشاحنة.';
+
+  @override
+  String get sourceDepot => 'المستودع المصدر';
+
+  @override
+  String get selectDepot => 'اختر المستودع';
+
+  @override
+  String get selectTruck => 'اختر الشاحنة';
+
+  @override
+  String get note => 'ملاحظة';
+
+  @override
+  String get selectProduct => 'اختر المنتج';
+
+  @override
+  String get available => 'المتاح';
+
+  @override
+  String get invalidValue => 'قيمة غير صالحة';
+
+  @override
+  String get sale => 'بيع';
+
+  @override
+  String get noStock => 'لا يوجد مخزون';
+
+  @override
+  String get noStockInstructions => 'أضف منتجات وحركات مخزون.';
+
+  @override
+  String get sales => 'المبيعات';
+
+  @override
+  String get purchases => 'المشتريات';
+
+  @override
+  String get stock => 'المخزون';
+
+  @override
+  String get noSales => 'لا توجد مبيعات';
+
+  @override
+  String get createQuickSaleInstructions => 'قم بإنشاء بيع سريع من نقطة البيع.';
+
+  @override
+  String get productDetails => 'تفاصيل المنتج';
+
+  @override
+  String get salesTab => 'المبيعات';
+
+  @override
+  String get purchasesTab => 'المشتريات';
+
+  @override
+  String get movementsTab => 'الحركات';
+
+  @override
+  String get filterDate => 'تصفية حسب التاريخ';
+
+  @override
+  String get clearFilter => 'مسح التصفية';
+
+  @override
+  String get noSalesFound => 'لم يتم العثور على مبيعات.';
+
+  @override
+  String get noPurchasesFound => 'لم يتم العثور على مشتريات.';
+
+  @override
+  String get noMovementsFound => 'لا توجد حركات مخزون.';
+
+  @override
+  String get products => 'المنتجات';
+
+  @override
+  String get finance => 'المالية';
 }
