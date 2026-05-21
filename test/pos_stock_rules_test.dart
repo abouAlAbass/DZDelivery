@@ -135,9 +135,72 @@ void main() {
     );
   });
 
+  test('Vente depot autorisee sans tournee active', () async {
+    final articleId = await _insertArticle(db, salePrice: 100);
+    await _purchaseStock(purchaseRepository, articleId, depotId, 10);
+
+    final saleId = await saleRepository.createAndConfirmSale(
+      Sale(
+        saleNumber: 'S-DEPOT-001',
+        warehouseId: depotId,
+        date: DateTime(2026, 5, 15),
+        subtotal: 300,
+        total: 300,
+        items: [
+          SaleItem(
+            articleId: articleId,
+            quantity: 3,
+            unitPrice: 100,
+            total: 300,
+          ),
+        ],
+      ),
+    );
+
+    final sale = await saleRepository.getSaleById(saleId);
+    expect(sale!.routeId, null);
+    expect(await _stock(db, articleId, depotId), 7);
+  });
+
+  test('Vente camion refusee sans tournee active', () async {
+    final articleId = await _insertArticle(db, salePrice: 100);
+    await db
+        .into(db.stockMovements)
+        .insert(
+          StockMovementsCompanion.insert(
+            articleId: articleId,
+            warehouseId: Value(truckId),
+            type: StockMovementTypes.adjustment,
+            quantity: 10,
+          ),
+        );
+
+    expect(
+      () => saleRepository.createAndConfirmSale(
+        Sale(
+          saleNumber: 'S-TRUCK-NO-ROUTE',
+          warehouseId: truckId,
+          date: DateTime(2026, 5, 15),
+          subtotal: 100,
+          total: 100,
+          items: [
+            SaleItem(
+              articleId: articleId,
+              quantity: 1,
+              unitPrice: 100,
+              total: 100,
+            ),
+          ],
+        ),
+      ),
+      throwsA(isA<StateError>()),
+    );
+  });
+
   test('Vente camion diminue stock camion', () async {
     final articleId = await _insertArticle(db, salePrice: 100);
     await _loadTruck(
+      db,
       purchaseRepository,
       transferRepository,
       articleId,
@@ -173,6 +236,7 @@ void main() {
   test('Vente impossible si stock insuffisant', () async {
     final articleId = await _insertArticle(db, salePrice: 100);
     await _loadTruck(
+      db,
       purchaseRepository,
       transferRepository,
       articleId,
@@ -223,7 +287,7 @@ void main() {
     await saleRepository.createAndConfirmSale(
       Sale(
         saleNumber: 'S-SERVICE-001',
-        warehouseId: truckId,
+        warehouseId: depotId,
         date: DateTime(2026, 5, 15),
         subtotal: 100,
         total: 100,
@@ -246,6 +310,7 @@ void main() {
   test('Retour vente augmente stock', () async {
     final articleId = await _insertArticle(db, salePrice: 100);
     await _loadTruck(
+      db,
       purchaseRepository,
       transferRepository,
       articleId,
@@ -305,6 +370,7 @@ void main() {
   test('Facture depuis vente ne touche pas le stock', () async {
     final articleId = await _insertArticle(db, salePrice: 100);
     await _loadTruck(
+      db,
       purchaseRepository,
       transferRepository,
       articleId,
@@ -346,6 +412,7 @@ void main() {
     () async {
       final articleId = await _insertArticle(db, salePrice: 100);
       await _loadTruck(
+        db,
         purchaseRepository,
         transferRepository,
         articleId,
@@ -393,6 +460,8 @@ void main() {
       final partialSale = await saleRepository.getSaleById(saleId);
       expect(partialSale!.paidAmount, 40);
       expect(partialSale.paymentStatus, 'partial');
+      final payments = await saleRepository.watchPaymentsForSale(saleId).first;
+      expect(payments.single.routeId, partialSale.routeId);
 
       expect(
         () => saleRepository.addSalePayment(
@@ -432,7 +501,7 @@ void main() {
     await saleRepository.createAndConfirmSale(
       Sale(
         saleNumber: firstNumber,
-        warehouseId: truckId,
+        warehouseId: depotId,
         date: date,
         subtotal: 100,
         total: 100,
@@ -463,6 +532,7 @@ void main() {
       final reportDate = DateTime(2026, 5, 15, 9);
       final articleId = await _insertArticle(db, salePrice: 500);
       await _loadTruck(
+        db,
         purchaseRepository,
         transferRepository,
         articleId,
@@ -575,6 +645,7 @@ Future<void> _purchaseStock(
 }
 
 Future<void> _loadTruck(
+  AppDatabase db,
   PurchaseRepositoryImpl purchaseRepository,
   StockTransferRepositoryImpl transferRepository,
   int articleId,
@@ -599,6 +670,31 @@ Future<void> _loadTruck(
     ),
   );
   await transferRepository.confirmStockTransfer(transferId);
+  await _openRoute(db, depotId: depotId, truckId: truckId, date: date);
+}
+
+Future<int> _openRoute(
+  AppDatabase db, {
+  required int depotId,
+  required int truckId,
+  DateTime? date,
+}) {
+  final routeDate = date ?? DateTime(2026, 5, 15);
+  return db
+      .into(db.deliveryRoutes)
+      .insert(
+        DeliveryRoutesCompanion.insert(
+          warehouseId: truckId,
+          date: routeDate,
+          routeNumber: Value(
+            'T-${routeDate.year}-${truckId.toString().padLeft(4, '0')}',
+          ),
+          depotWarehouseId: Value(depotId),
+          truckWarehouseId: Value(truckId),
+          openedAt: Value(routeDate),
+          status: const Value('open'),
+        ),
+      );
 }
 
 Future<int> _warehouseId(AppDatabase db, String type) async {

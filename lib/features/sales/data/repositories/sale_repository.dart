@@ -129,12 +129,21 @@ class SaleRepositoryImpl implements SaleRepository {
         throw StateError('Payment amount cannot exceed total');
       }
 
-      if (routeId != null) {
-        final route = await (_db.select(_db.deliveryRoutes)
-              ..where((row) => row.id.equals(routeId)))
-            .getSingleOrNull();
+      final paymentRouteId = routeId ?? sale.routeId;
+
+      if (paymentRouteId != null) {
+        final route = await (_db.select(
+          _db.deliveryRoutes,
+        )..where((row) => row.id.equals(paymentRouteId))).getSingleOrNull();
         if (route != null && route.status == 'closed') {
-          throw StateError('Impossible d\'ajouter un paiement à une tournée fermée.');
+          throw StateError(
+            'Impossible d\'ajouter un paiement à une tournée fermée.',
+          );
+        }
+        if (route != null && route.warehouseId != sale.warehouseId) {
+          throw StateError(
+            'La tournee du paiement ne correspond pas au depot/camion de la vente.',
+          );
         }
       }
 
@@ -147,7 +156,7 @@ class SaleRepositoryImpl implements SaleRepository {
               method: method,
               date: Value(DateTime.now()),
               note: Value(note),
-              routeId: Value(routeId),
+              routeId: Value(paymentRouteId),
             ),
           );
 
@@ -169,11 +178,14 @@ class SaleRepositoryImpl implements SaleRepository {
       _validateSaleReturn(saleReturn);
 
       if (saleReturn.routeId != null) {
-        final route = await (_db.select(_db.deliveryRoutes)
-              ..where((row) => row.id.equals(saleReturn.routeId!)))
-            .getSingleOrNull();
+        final route =
+            await (_db.select(_db.deliveryRoutes)
+                  ..where((row) => row.id.equals(saleReturn.routeId!)))
+                .getSingleOrNull();
         if (route != null && route.status == 'closed') {
-          throw StateError('Impossible de créer un retour sur une tournée fermée.');
+          throw StateError(
+            'Impossible de créer un retour sur une tournée fermée.',
+          );
         }
       }
 
@@ -513,34 +525,47 @@ class SaleRepositoryImpl implements SaleRepository {
   Future<int> _insertSale(Sale sale) async {
     _validateSale(sale);
 
-    final warehouse = await (_db.select(_db.warehouses)
-          ..where((row) => row.id.equals(sale.warehouseId)))
-        .getSingleOrNull();
+    final warehouse = await (_db.select(
+      _db.warehouses,
+    )..where((row) => row.id.equals(sale.warehouseId))).getSingleOrNull();
 
-    if (warehouse != null && warehouse.type == 'truck') {
-      final activeRoute = await (_db.select(_db.deliveryRoutes)
-            ..where((row) => row.status.equals('open'))
-            ..limit(1))
-          .getSingleOrNull();
-
+    var effectiveRouteId = sale.routeId;
+    if (warehouse != null &&
+        warehouse.type == 'truck' &&
+        effectiveRouteId == null) {
+      final activeRoute =
+          await (_db.select(_db.deliveryRoutes)
+                ..where(
+                  (row) =>
+                      row.status.equals('open') &
+                      row.warehouseId.equals(sale.warehouseId),
+                )
+                ..limit(1))
+              .getSingleOrNull();
       if (activeRoute == null) {
-        final hasAnyRoute = await (_db.select(_db.deliveryRoutes)..limit(1)).get();
-        if (hasAnyRoute.isNotEmpty) {
-          throw StateError('Une vente POS depuis camion nécessite une tournée active.');
-        }
-      } else {
-        if (activeRoute.warehouseId != sale.warehouseId) {
-          throw StateError('Le dépôt/camion de la vente doit correspondre à celui de la tournée active.');
-        }
+        throw StateError(
+          'Une vente POS depuis camion necessite une tournee active.',
+        );
       }
+      effectiveRouteId = activeRoute.id;
     }
 
-    if (sale.routeId != null) {
-      final route = await (_db.select(_db.deliveryRoutes)
-            ..where((row) => row.id.equals(sale.routeId!)))
-          .getSingleOrNull();
-      if (route != null && route.status == 'closed') {
-        throw StateError('Impossible d\'associer une vente à une tournée fermée.');
+    if (effectiveRouteId != null) {
+      final route = await (_db.select(
+        _db.deliveryRoutes,
+      )..where((row) => row.id.equals(effectiveRouteId!))).getSingleOrNull();
+      if (route == null) {
+        throw StateError('Tournee introuvable.');
+      }
+      if (route.status != 'open') {
+        throw StateError(
+          'Impossible d\'associer une vente a une tournee non ouverte.',
+        );
+      }
+      if (route.warehouseId != sale.warehouseId) {
+        throw StateError(
+          'Le depot/camion de la vente doit correspondre a celui de la tournee.',
+        );
       }
     }
 
@@ -561,7 +586,7 @@ class SaleRepositoryImpl implements SaleRepository {
             ),
             status: Value(sale.status),
             note: Value(sale.note),
-            routeId: Value(sale.routeId),
+            routeId: Value(effectiveRouteId),
           ),
         );
 
@@ -591,7 +616,7 @@ class SaleRepositoryImpl implements SaleRepository {
               method: payment.method,
               date: Value(payment.date),
               note: Value(payment.note),
-              routeId: Value(sale.routeId),
+              routeId: Value(effectiveRouteId),
             ),
           );
     }

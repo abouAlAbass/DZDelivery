@@ -1,4 +1,4 @@
-package com.costructor.invoiceapp.invoice_app
+package com.binayat.deliverydz
 
 import io.flutter.embedding.android.FlutterActivity
 

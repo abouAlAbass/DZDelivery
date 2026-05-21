@@ -1,19 +1,19 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-class SmartInvoiceLauncher extends StatefulWidget {
+class SmartDeliveryLauncher extends StatefulWidget {
   final VoidCallback onFinish;
 
-  const SmartInvoiceLauncher({
+  const SmartDeliveryLauncher({
     super.key,
     required this.onFinish,
   });
 
   @override
-  State<SmartInvoiceLauncher> createState() => _SmartInvoiceLauncherState();
+  State<SmartDeliveryLauncher> createState() => _SmartDeliveryLauncherState();
 }
 
-class _SmartInvoiceLauncherState extends State<SmartInvoiceLauncher> with SingleTickerProviderStateMixin {
+class _SmartDeliveryLauncherState extends State<SmartDeliveryLauncher> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _drawAnimation;
   
@@ -89,21 +89,18 @@ class _SmartInvoiceLauncherState extends State<SmartInvoiceLauncher> with Single
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // --- 1. ANIMATION LINE ART CENTRÉE ---
+          // --- 1. ANIMATION LOGO DELIVERY ---
           Center(
-            child: SizedBox(
-              width: 140,
-              height: 140,
-              child: AnimatedBuilder(
-                animation: _drawAnimation,
-                builder: (context, child) {
-                  return CustomPaint(
-                    painter: _InvoiceLineArtPainter(
-                      progress: _drawAnimation.value,
-                      color: Colors.indigo, // Tracé de couleur Indigo
-                    ),
-                  );
-                },
+            child: ScaleTransition(
+              scale: Tween<double>(begin: 0.5, end: 1.0).animate(_drawAnimation),
+              child: FadeTransition(
+                opacity: _drawAnimation,
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),
@@ -124,65 +121,5 @@ class _SmartInvoiceLauncherState extends State<SmartInvoiceLauncher> with Single
         ],
       ),
     );
-  }
-}
-
-// Peintre personnalisé pour dessiner le logo "Facture" de manière progressive
-class _InvoiceLineArtPainter extends CustomPainter {
-  final double progress;
-  final Color color;
-
-  _InvoiceLineArtPainter({required this.progress, required this.color});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 5.0
-      ..strokeCap = StrokeCap.round
-      ..strokeJoin = StrokeJoin.round;
-
-    final path = Path();
-    
-    // 1. Le contour du document (avec coin corné)
-    path.moveTo(size.width * 0.25, size.height * 0.1);
-    path.lineTo(size.width * 0.55, size.height * 0.1);
-    path.lineTo(size.width * 0.75, size.height * 0.3);
-    path.lineTo(size.width * 0.75, size.height * 0.9);
-    path.lineTo(size.width * 0.25, size.height * 0.9);
-    path.close();
-
-    // 2. La ligne du coin corné
-    path.moveTo(size.width * 0.55, size.height * 0.1);
-    path.lineTo(size.width * 0.55, size.height * 0.3);
-    path.lineTo(size.width * 0.75, size.height * 0.3);
-
-    // 3. Les lignes de texte à l'intérieur de la facture
-    path.moveTo(size.width * 0.4, size.height * 0.45);
-    path.lineTo(size.width * 0.6, size.height * 0.45);
-
-    path.moveTo(size.width * 0.4, size.height * 0.6);
-    path.lineTo(size.width * 0.6, size.height * 0.6);
-
-    path.moveTo(size.width * 0.4, size.height * 0.75);
-    path.lineTo(size.width * 0.5, size.height * 0.75);
-
-    // Animation : Extraire uniquement la portion du tracé correspondant au "progress"
-    final pathMetrics = path.computeMetrics();
-    final animatedPath = Path();
-
-    for (final metric in pathMetrics) {
-      final extractLength = metric.length * progress;
-      animatedPath.addPath(metric.extractPath(0.0, extractLength), Offset.zero);
-    }
-
-    // Dessiner le tracé animé
-    canvas.drawPath(animatedPath, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant _InvoiceLineArtPainter oldDelegate) {
-    return oldDelegate.progress != progress || oldDelegate.color != color;
   }
 }

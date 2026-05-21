@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:hissab_dz/core/database/database.dart';
 import 'package:hissab_dz/core/theme/theme.dart';
 import 'package:hissab_dz/core/widgets/app_drawer.dart';
 import 'package:hissab_dz/core/widgets/responsive_content.dart';
@@ -13,6 +14,8 @@ import 'package:hissab_dz/features/sales/domain/entities/sale.dart';
 import 'package:hissab_dz/features/stock/presentation/providers/stock_providers.dart';
 import 'package:hissab_dz/l10n/app_localizations.dart';
 import 'package:hissab_dz/features/pos/presentation/providers/delivery_route_providers.dart';
+
+enum _SaleMode { depot, truck }
 
 class QuickSaleScreen extends ConsumerStatefulWidget {
   const QuickSaleScreen({super.key});
@@ -27,6 +30,7 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
   final _paidController = TextEditingController(text: '0');
   final _cart = <_CartLine>[];
   int? _warehouseId;
+  _SaleMode _mode = _SaleMode.depot;
   String _query = '';
   String _paymentMethod = 'cash';
   bool _isSaving = false;
@@ -55,63 +59,36 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
     final activeRouteAsync = ref.watch(activeDeliveryRouteProvider);
 
     return activeRouteAsync.when(
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
-      error: (err, stack) => Scaffold(
-        body: Center(child: Text('Erreur : $err')),
-      ),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (err, stack) =>
+          Scaffold(body: Center(child: Text('Erreur : $err'))),
       data: (activeRoute) {
-        if (activeRoute == null) {
-          return Scaffold(
-            appBar: AppBar(title: Text(l10n.localeName == 'ar' ? 'بيع سريع' : 'Vente rapide')),
-            drawer: MediaQuery.sizeOf(context).width >= 1100 ? null : const AppDrawer(),
-            body: Center(
-              child: Card(
-                margin: const EdgeInsets.all(AppSpacing.lg),
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSpacing.xl),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.lock_outline, size: 64, color: AppTheme.primaryIndigo),
-                      const SizedBox(height: AppSpacing.md),
-                      Text(
-                        l10n.localeName == 'ar' ? 'الرجاء بدء الجولة' : 'Tournée non démarrée',
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: AppSpacing.sm),
-                      Text(
-                        l10n.localeName == 'ar' 
-                            ? 'يجب بدء جولة يومية قبل التمكن من إجراء المبيعات.' 
-                            : 'Vous devez démarrer une tournée avant de pouvoir effectuer des ventes.',
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: AppSpacing.lg),
-                      FilledButton.icon(
-                        onPressed: () => context.go('/pos/delivery-route'),
-                        icon: const Icon(Icons.play_arrow),
-                        label: Text(l10n.localeName == 'ar' ? 'بدء جولة اليوم' : 'Démarrer la tournée'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
+        final depots = ref.watch(depotWarehousesProvider).value ?? [];
+        if (_mode == _SaleMode.truck && activeRoute == null) {
+          _mode = _SaleMode.depot;
+        }
+        if (_mode == _SaleMode.truck && activeRoute != null) {
+          _warehouseId = activeRoute.warehouseId;
+        } else if (depots.isNotEmpty &&
+            (_warehouseId == null ||
+                !depots.any((depot) => depot.id == _warehouseId))) {
+          _warehouseId = depots.first.id;
         }
 
         final articles = (ref.watch(articlesListProvider).value ?? [])
             .where((article) => article.isActive && article.deletedAt == null)
             .toList();
-        final currencyFormat = NumberFormat.currency(locale: 'en', symbol: l10n.currencySymbol);
+        final currencyFormat = NumberFormat.currency(
+          locale: 'en',
+          symbol: l10n.currencySymbol,
+        );
         final quantityFormat = NumberFormat.decimalPattern('en');
-
-        _warehouseId = activeRoute.warehouseId;
 
         final availableStock = _warehouseId == null
             ? <int, double>{}
-            : ref.watch(warehouseArticleStockProvider(_warehouseId!)).value ?? {};
+            : ref.watch(warehouseArticleStockProvider(_warehouseId!)).value ??
+                  {};
         final filteredArticles = articles.where((article) {
           final query = _query.trim().toLowerCase();
           if (query.isEmpty) return true;
@@ -121,8 +98,12 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
         }).toList();
 
         return Scaffold(
-          appBar: AppBar(title: Text(l10n.localeName == 'ar' ? 'بيع سريع' : 'Vente rapide')),
-          drawer: MediaQuery.sizeOf(context).width >= 1100 ? null : const AppDrawer(),
+          appBar: AppBar(
+            title: Text(l10n.localeName == 'ar' ? 'بيع سريع' : 'Vente rapide'),
+          ),
+          drawer: MediaQuery.sizeOf(context).width >= 1100
+              ? null
+              : const AppDrawer(),
           body: ResponsiveContent(
             child: ListView(
               padding: const EdgeInsets.fromLTRB(
@@ -132,23 +113,14 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
                 AppSpacing.bottomNavClearance,
               ),
               children: [
-                Card(
-                  color: AppTheme.primaryIndigo.withValues(alpha: 0.05),
-                  child: ListTile(
-                    leading: const Icon(Icons.local_shipping, color: AppTheme.primaryIndigo),
-                    title: Text(l10n.localeName == 'ar' 
-                        ? 'شاحنة الجولة: ${activeRoute.driverName ?? "الموزع"}'
-                        : 'Camion de la tournée : ${activeRoute.driverName ?? "Livreur"}'),
-                    subtitle: Text(l10n.localeName == 'ar'
-                        ? 'عداد البداية: ${activeRoute.startKm ?? "-"} كم'
-                        : 'KM de départ : ${activeRoute.startKm ?? "-"} km'),
-                  ),
-                ),
+                _buildSaleContextCard(activeRoute, depots, l10n),
                 const SizedBox(height: AppSpacing.md),
                 TextField(
                   controller: _searchController,
                   decoration: InputDecoration(
-                    labelText: l10n.localeName == 'ar' ? 'بحث عن منتج' : 'Rechercher article',
+                    labelText: l10n.localeName == 'ar'
+                        ? 'بحث عن منتج'
+                        : 'Rechercher article',
                     prefixIcon: const Icon(Icons.search),
                   ),
                   onChanged: (value) => setState(() => _query = value),
@@ -161,13 +133,20 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
                   quantityFormat,
                 ),
                 const SizedBox(height: AppSpacing.lg),
-                Text(l10n.localeName == 'ar' ? 'السلة' : 'Panier', style: Theme.of(context).textTheme.titleMedium),
+                Text(
+                  l10n.localeName == 'ar' ? 'السلة' : 'Panier',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
                 const SizedBox(height: AppSpacing.sm),
                 if (_cart.isEmpty)
                   Card(
                     child: Padding(
                       padding: const EdgeInsets.all(AppSpacing.md),
-                      child: Text(l10n.localeName == 'ar' ? 'السلة فارغة' : 'Aucun article dans le panier'),
+                      child: Text(
+                        l10n.localeName == 'ar'
+                            ? 'السلة فارغة'
+                            : 'Aucun article dans le panier',
+                      ),
                     ),
                   )
                 else
@@ -185,7 +164,11 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
                     Expanded(
                       child: TextField(
                         controller: _discountController,
-                        decoration: InputDecoration(labelText: l10n.localeName == 'ar' ? 'تخفيض' : 'Remise'),
+                        decoration: InputDecoration(
+                          labelText: l10n.localeName == 'ar'
+                              ? 'تخفيض'
+                              : 'Remise',
+                        ),
                         keyboardType: const TextInputType.numberWithOptions(
                           decimal: true,
                         ),
@@ -200,7 +183,9 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
                       child: TextField(
                         controller: _paidController,
                         decoration: InputDecoration(
-                          labelText: l10n.localeName == 'ar' ? 'المبلغ المدفوع' : 'Montant paye',
+                          labelText: l10n.localeName == 'ar'
+                              ? 'المبلغ المدفوع'
+                              : 'Montant paye',
                         ),
                         keyboardType: const TextInputType.numberWithOptions(
                           decimal: true,
@@ -216,12 +201,30 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
                 const SizedBox(height: AppSpacing.sm),
                 DropdownButtonFormField<String>(
                   initialValue: _paymentMethod,
-                  decoration: InputDecoration(labelText: l10n.localeName == 'ar' ? 'طريقة الدفع' : 'Mode paiement'),
+                  decoration: InputDecoration(
+                    labelText: l10n.localeName == 'ar'
+                        ? 'طريقة الدفع'
+                        : 'Mode paiement',
+                  ),
                   items: [
-                    DropdownMenuItem(value: 'cash', child: Text(l10n.localeName == 'ar' ? 'نقد' : 'Cash')),
-                    DropdownMenuItem(value: 'card', child: Text(l10n.localeName == 'ar' ? 'بطاقة' : 'Carte')),
-                    DropdownMenuItem(value: 'baridimob', child: Text(l10n.localeName == 'ar' ? 'بريدي موب' : 'BaridiMob')),
-                    DropdownMenuItem(value: 'credit', child: Text(l10n.localeName == 'ar' ? 'دين' : 'Credit')),
+                    DropdownMenuItem(
+                      value: 'cash',
+                      child: Text(l10n.localeName == 'ar' ? 'نقد' : 'Cash'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'card',
+                      child: Text(l10n.localeName == 'ar' ? 'بطاقة' : 'Carte'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'baridimob',
+                      child: Text(
+                        l10n.localeName == 'ar' ? 'بريدي موب' : 'BaridiMob',
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: 'credit',
+                      child: Text(l10n.localeName == 'ar' ? 'دين' : 'Credit'),
+                    ),
                   ],
                   onChanged: (value) =>
                       setState(() => _paymentMethod = value ?? 'cash'),
@@ -232,11 +235,30 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
                     padding: const EdgeInsets.all(AppSpacing.md),
                     child: Column(
                       children: [
-                        _amountRow(l10n.localeName == 'ar' ? 'المجموع الفرعي' : 'Sous-total', _subtotal, currencyFormat),
-                        _amountRow(l10n.localeName == 'ar' ? 'تخفيض' : 'Remise', _discount, currencyFormat),
+                        _amountRow(
+                          l10n.localeName == 'ar'
+                              ? 'المجموع الفرعي'
+                              : 'Sous-total',
+                          _subtotal,
+                          currencyFormat,
+                        ),
+                        _amountRow(
+                          l10n.localeName == 'ar' ? 'تخفيض' : 'Remise',
+                          _discount,
+                          currencyFormat,
+                        ),
                         const Divider(),
-                        _amountRow(l10n.localeName == 'ar' ? 'الإجمالي' : 'Total', _total, currencyFormat, bold: true),
-                        _amountRow(l10n.localeName == 'ar' ? 'المبلغ المدفوع' : 'Paye', _paidAmount, currencyFormat),
+                        _amountRow(
+                          l10n.localeName == 'ar' ? 'الإجمالي' : 'Total',
+                          _total,
+                          currencyFormat,
+                          bold: true,
+                        ),
+                        _amountRow(
+                          l10n.localeName == 'ar' ? 'المبلغ المدفوع' : 'Paye',
+                          _paidAmount,
+                          currencyFormat,
+                        ),
                         Align(
                           alignment: Alignment.centerRight,
                           child: Chip(label: Text(_paymentStatus)),
@@ -247,15 +269,117 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
                 ),
                 const SizedBox(height: AppSpacing.md),
                 FilledButton.icon(
-                  onPressed: _isSaving ? null : () => _confirmSale(availableStock),
+                  onPressed: _isSaving
+                      ? null
+                      : () => _confirmSale(availableStock),
                   icon: const Icon(Icons.point_of_sale),
-                  label: Text(l10n.localeName == 'ar' ? 'تأكيد البيع' : 'Confirmer vente'),
+                  label: Text(
+                    l10n.localeName == 'ar' ? 'تأكيد البيع' : 'Confirmer vente',
+                  ),
                 ),
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildSaleContextCard(
+    DeliveryRouteData? activeRoute,
+    List<WarehouseData> depots,
+    AppLocalizations l10n,
+  ) {
+    final isAr = l10n.localeName == 'ar';
+    final isTruckMode = _mode == _SaleMode.truck;
+
+    return Card(
+      color: AppTheme.primaryIndigo.withValues(alpha: 0.05),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SegmentedButton<_SaleMode>(
+              segments: [
+                ButtonSegment<_SaleMode>(
+                  value: _SaleMode.depot,
+                  icon: const Icon(Icons.warehouse_outlined),
+                  label: Text(isAr ? 'المستودع' : 'Depot'),
+                ),
+                ButtonSegment<_SaleMode>(
+                  value: _SaleMode.truck,
+                  icon: const Icon(Icons.local_shipping_outlined),
+                  label: Text(isAr ? 'الشاحنة' : 'Camion'),
+                  enabled: activeRoute != null,
+                ),
+              ],
+              selected: {_mode},
+              onSelectionChanged: (selection) {
+                final nextMode = selection.first;
+                if (nextMode == _SaleMode.truck && activeRoute == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Aucune tournee active pour vendre depuis camion',
+                      ),
+                    ),
+                  );
+                  return;
+                }
+                setState(() {
+                  _mode = nextMode;
+                  _cart.clear();
+                  _warehouseId = nextMode == _SaleMode.truck
+                      ? activeRoute?.warehouseId
+                      : (depots.isEmpty ? null : depots.first.id);
+                });
+              },
+            ),
+            const SizedBox(height: AppSpacing.md),
+            if (isTruckMode && activeRoute != null)
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(
+                  Icons.local_shipping,
+                  color: AppTheme.primaryIndigo,
+                ),
+                title: Text(
+                  isAr
+                      ? 'بيع من شاحنة الجولة'
+                      : 'Vente camion - tournee active',
+                ),
+                subtitle: Text(
+                  isAr
+                      ? 'السائق: ${activeRoute.driverName ?? "-"}'
+                      : 'Chauffeur : ${activeRoute.driverName ?? "-"}',
+                ),
+              )
+            else
+              DropdownButtonFormField<int>(
+                initialValue: depots.any((depot) => depot.id == _warehouseId)
+                    ? _warehouseId
+                    : null,
+                decoration: InputDecoration(
+                  labelText: isAr ? 'المستودع' : 'Depot de vente',
+                ),
+                items: [
+                  for (final depot in depots)
+                    DropdownMenuItem<int>(
+                      value: depot.id,
+                      child: Text(depot.name),
+                    ),
+                ],
+                onChanged: depots.isEmpty
+                    ? null
+                    : (value) => setState(() {
+                        _warehouseId = value;
+                        _cart.clear();
+                      }),
+              ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -450,7 +574,13 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
     }
 
     final activeRoute = ref.read(activeDeliveryRouteProvider).value;
-    if (activeRoute == null) return;
+    final routeId = _mode == _SaleMode.truck ? activeRoute?.id : null;
+    if (_mode == _SaleMode.truck && routeId == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Aucune tournee active')));
+      return;
+    }
 
     final confirmed = await showDialog<bool>(
       context: context,
@@ -485,7 +615,7 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
         paidAmount: _paidAmount,
         paymentStatus: _paymentStatus,
         status: 'draft',
-        routeId: activeRoute.id,
+        routeId: routeId,
         items: _cart
             .map(
               (line) => SaleItem(
@@ -501,15 +631,20 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
                 amount: _paidAmount,
                 method: _paymentMethod,
                 date: DateTime.now(),
-                routeId: activeRoute.id,
+                routeId: routeId,
               )
             : null,
       );
 
-      await repository.createAndConfirmSale(sale);
+      final saleId = await repository.createAndConfirmSale(sale);
 
       if (!mounted) return;
-      context.pop();
+      setState(() {
+        _cart.clear();
+        _discountController.text = '0';
+        _paidController.text = '0';
+      });
+      context.go('/pos/sales/$saleId');
     } on StateError catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(

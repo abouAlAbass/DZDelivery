@@ -63,7 +63,7 @@ class _MainAppState extends ConsumerState<MainApp> {
             );
           },
           child: _showSplash
-              ? SmartInvoiceLauncher(
+              ? SmartDeliveryLauncher(
                   key: const ValueKey('splash'),
                   onFinish: () {
                     setState(() {
