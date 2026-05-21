@@ -36,7 +36,7 @@ class AppDrawer extends ConsumerWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.asset(
-                        'assets/images/iconHissabDZ.jpg',
+                        'assets/images/logo.png',
                         width: 60,
                         height: 60,
                         fit: BoxFit.cover,

@@ -602,7 +602,7 @@ class _DesktopSidebar extends ConsumerWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.asset(
-                      'assets/images/iconHissabDZ.jpg',
+                      'assets/images/logo.png',
                       width: 36,
                       height: 36,
                       fit: BoxFit.cover,
